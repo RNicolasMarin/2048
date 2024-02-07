@@ -7,12 +7,12 @@ val NUMBER_OPTIONS = listOf(2, 2, 2, 2, 4)
 
 class CreateBoardGameUseCase {
 
-    fun createBoardGame(size: Int): List<List<Int>> {
+    fun createBoardGame(size: Int): MutableList<MutableList<Int>> {
         /** Initialize the matrix (for both dimensions of the size of [size]) to represent
          * the rows and columns with [DEFAULT_VALUE] for each cell as a default value **/
         val emptyMatrix =
-            MutableList(size) { //rows
-                MutableList(size) { //columns
+            MutableList(size) { //columns
+                MutableList(size) { //rows
                     DEFAULT_VALUE
                 }
             }

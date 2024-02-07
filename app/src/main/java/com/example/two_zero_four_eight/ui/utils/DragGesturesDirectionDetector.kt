@@ -40,28 +40,26 @@ const val DragGesturesTag = "DragGestures"
  * equal or higher to [difference] between the Xs and Ys coordinates to determine in which direction
  * the drag move is being made and returns that using the [onDirectionDetected]
  *
- * Finally it draws the [content] composable as a child to the Box from the beginning
  * **/
 @Composable
 fun DragGesturesDirectionDetector(
     modifier: Modifier = Modifier,
     resetAtTheEnd: Boolean = true,
     difference: Float = 40f,
-    onDirectionDetected: (MovementDirection) -> Unit,
-    content: @Composable () -> Unit
+    onDirectionDetected: (MovementDirection) -> Unit
 ) {
 
     var startPosition by remember { mutableStateOf(Offset(0f, 0f)) }
-    var currentDirection by remember { mutableStateOf(NONE) }
+    var currentDirection = NONE
 
     Box(modifier = modifier.pointerInput(Unit) {
         detectDragGestures(
             { offset ->
-                Log.d(DragGesturesTag, "onDragStart: $offset")
+                Log.d(DragGesturesTag, "onDragStart: $currentDirection")
                 startPosition = offset
             },
             {
-                Log.d(DragGesturesTag, "onDragEnd")
+                Log.d(DragGesturesTag, "onDragEnd: $currentDirection")
                 if (!resetAtTheEnd) return@detectDragGestures
 
                 startPosition = Offset(0f, 0f)
@@ -89,9 +87,7 @@ fun DragGesturesDirectionDetector(
             currentDirection = newDirection
             onDirectionDetected(currentDirection)
         }
-    }) {
-        content()
-    }
+    })
 }
 
 fun getNewDirection(current: Offset, start: Offset, difference: Float) =
