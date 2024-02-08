@@ -2,10 +2,52 @@ package com.example.two_zero_four_eight.use_cases
 
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
+import com.example.two_zero_four_eight.use_cases.utils.MoveNumberResult
+import com.example.two_zero_four_eight.use_cases.utils.MoveNumberResult.*
 
 class MoveNumbersUseCase {
 
-    fun moveNumbers(boardGame: MutableList<MutableList<Int>>, movementDirection: MovementDirection): MutableList<MutableList<Int>>? {
+    /**
+     * 1) Moves the numbers lines (rows or columns depending on [movementDirection]) and
+     * combines the numbers that are the same and are positioned next to each other.
+     *
+     * 2) If there's empties cells add a new number on a random empty position.
+     *
+     * 3) If there's empty cells
+     *          continue playing.
+     *    else if there's something that can be combined.
+     *          continue playing.
+     *    else
+     *          game over
+     * **/
+    fun moveNumbers(
+        boardGame: MutableList<MutableList<Int>>,
+        movementDirection: MovementDirection
+    ): MoveNumberResult {
+        //1) Move and Combine
+        var boardGameAfterMove = getBoardGameAfterMove(boardGame, movementDirection)
+
+        //If it's [NONE] there's no chance on the boardGame
+        if (movementDirection == NONE) {
+            return KeepPlaying(boardGameAfterMove)
+        }
+
+        //2) if there's empty cells add number
+        val useCase = AddNumberToBoardGameUseCase()
+        boardGameAfterMove = useCase.addNumber(boardGameAfterMove)
+
+        //3)NEXT Check if there's any possible moves
+
+        return KeepPlaying(boardGameAfterMove)
+    }
+
+    /**
+     * Return the boardGame with the move applied
+     * **/
+    private fun getBoardGameAfterMove(
+        boardGame: MutableList<MutableList<Int>>,
+        movementDirection: MovementDirection
+    ): MutableList<MutableList<Int>> {
         val boardSize = boardGame.size
         return when (movementDirection) {
             LEFT, RIGHT -> {
@@ -16,7 +58,7 @@ class MoveNumbersUseCase {
                 getUpDownMove(boardSize, boardGame, movementDirection)
             }
 
-            else -> null
+            NONE -> boardGame
         }
     }
 

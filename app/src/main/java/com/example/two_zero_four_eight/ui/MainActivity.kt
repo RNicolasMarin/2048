@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.two_zero_four_eight.ui.theme.TwoZeroFourEightTheme
 import com.example.two_zero_four_eight.ui.utils.DragGesturesDirectionDetector
@@ -64,11 +65,16 @@ fun TwoZeroFourEightApp() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Table(uiState.board, currentDirection)
+            if (uiState.isGameOver) {
+                Text(
+                    fontSize = 20.sp,
+                    text = "Game Over"
+                )
+            }
         }
         DragGesturesDirectionDetector(
             modifier = Modifier
-                .fillMaxSize()
-                ,
+                .fillMaxSize(),
             onDirectionDetected = {
                 currentDirection = it
                 viewModel.moveNumbers(it)
@@ -115,7 +121,10 @@ fun TableCell(cellData: Int) {
             .padding(8.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(if (cellData == DEFAULT_VALUE) "" else cellData.toString())
+        Text(
+            fontSize = 20.sp,
+            text = if (cellData == DEFAULT_VALUE) "" else cellData.toString()
+        )
     }
 }
 

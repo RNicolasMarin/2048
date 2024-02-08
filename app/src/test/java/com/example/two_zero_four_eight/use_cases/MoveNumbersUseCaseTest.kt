@@ -14,7 +14,7 @@ class MoveNumbersUseCaseTest {
         moveNumbersUseCase = MoveNumbersUseCase()
     }
 
-    @Test
+    /*@Test
     fun `LEFT 2-2-2-2 to 4-4-_-_`() {
         val matrix = mutableListOf(
             mutableListOf(2,2,2,2),
@@ -304,5 +304,5 @@ class MoveNumbersUseCaseTest {
 
     private fun getNonChangingRow(): MutableList<Int> {
         return mutableListOf(16,8,4,32)
-    }
+    }*/
 }

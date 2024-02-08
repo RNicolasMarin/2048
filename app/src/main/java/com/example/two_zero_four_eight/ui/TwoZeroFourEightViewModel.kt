@@ -5,6 +5,7 @@ import com.example.two_zero_four_eight.model.GameState
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.use_cases.CreateBoardGameUseCase
 import com.example.two_zero_four_eight.use_cases.MoveNumbersUseCase
+import com.example.two_zero_four_eight.use_cases.utils.MoveNumberResult.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,18 +27,19 @@ class TwoZeroFourEightViewModel: ViewModel() {
     private fun startNewGame() {
         _gameState.update {
             it.copy(
-                board = boardGameUseCases.createBoardGame(3)
+                board = boardGameUseCases.createBoardGame(3),
+                isGameOver = false
             )
         }
     }
 
     fun moveNumbers(direction: MovementDirection) {
-        val newBoardGame =
-            moveNumbersUseCase.moveNumbers(_gameState.value.board, direction) ?: return
+        val newBoard = moveNumbersUseCase.moveNumbers(_gameState.value.board, direction)
 
         _gameState.update {
             it.copy(
-                board = newBoardGame
+                board = newBoard.boardGame,
+                isGameOver = newBoard is GameOver
             )
         }
     }
