@@ -3,7 +3,6 @@ package com.example.two_zero_four_eight.use_cases
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
 import com.example.two_zero_four_eight.use_cases.utils.MoveNumberResult
-import com.example.two_zero_four_eight.use_cases.utils.MoveNumberResult.*
 
 class MoveNumbersUseCase {
 
@@ -13,43 +12,41 @@ class MoveNumbersUseCase {
      *
      * 2) If there's empties cells add a new number on a random empty position.
      *
-     * 3) If there's empty cells
-     *          continue playing.
-     *    else if there's something that can be combined.
-     *          continue playing.
-     *    else
-     *          game over
+     * 3) If there's empty cells or there's something that can be combined
+     * continue playing. In other case is game over.
      * **/
     fun moveNumbers(
         boardGame: MutableList<MutableList<Int>>,
-        movementDirection: MovementDirection
+        movementDirection: MovementDirection,
+        isGameOver: Boolean
     ): MoveNumberResult {
         //1) Move and Combine
-        var boardGameAfterMove = getBoardGameAfterMove(boardGame, movementDirection)
-
-        //If it's [NONE] there's no chance on the boardGame
-        if (movementDirection == NONE) {
-            return KeepPlaying(boardGameAfterMove)
-        }
+        //If it's null there's no change on the boardGame or in isGameOver and return the original values
+        var boardGameAfterMove = getBoardGameAfterMove(boardGame, movementDirection) ?:
+            return MoveNumberResult(boardGame, isGameOver)
 
         //2) if there's empty cells add number
-        val useCase = AddNumberToBoardGameUseCase()
-        boardGameAfterMove = useCase.addNumber(boardGameAfterMove)
+        val useCase1 = AddNumberToBoardGameUseCase()
+        boardGameAfterMove = useCase1.addNumber(boardGameAfterMove)
 
-        //3)NEXT Check if there's any possible moves
-
-        return KeepPlaying(boardGameAfterMove)
+        //3) Check if there's any possible move
+        val useCase2 = IsTherePossibleMovesUseCase()
+        return useCase2.existMovesToContinue(boardGameAfterMove)
     }
 
     /**
-     * Return the boardGame with the move applied
+     * If [movementDirection] was [NONE] (shouldn't apply changes, it's an extra case) or
+     * if even after applying a move the boardGame is the same would return null.
+     * In other case would return the the boardGame with the move applied.
      * **/
     private fun getBoardGameAfterMove(
-        boardGame: MutableList<MutableList<Int>>,
+        boardGameOriginal: MutableList<MutableList<Int>>,
         movementDirection: MovementDirection
-    ): MutableList<MutableList<Int>> {
-        val boardSize = boardGame.size
-        return when (movementDirection) {
+    ): MutableList<MutableList<Int>>? {
+        val boardSize = boardGameOriginal.size
+        val boardGame = boardGameOriginal.copy()
+
+        val boardGameAfterMove = when (movementDirection) {
             LEFT, RIGHT -> {
                 getLeftRightMove(boardSize, boardGame, movementDirection)
             }
@@ -60,6 +57,9 @@ class MoveNumbersUseCase {
 
             NONE -> boardGame
         }
+
+        if (movementDirection == NONE) return null
+        return if (boardGameOriginal.isTheSameBoard(boardGameAfterMove)) null else boardGameAfterMove
     }
 
     /**
@@ -71,18 +71,18 @@ class MoveNumbersUseCase {
         boardGame: MutableList<MutableList<Int>>,
         movementDirection: MovementDirection
     ): MutableList<MutableList<Int>> {
-        for (rowIndex in 0..<boardSize) {
+        for (rowIndex in 0..< boardSize) {
 
-            //take a row line
-            val row = boardGame[rowIndex]
-
-            //remove all the [DEFAULT_VALUE] on the row
-            for (index in row.size-1 downTo 0) {
-                if (row[index] == DEFAULT_VALUE) {
-                    row.removeAt(index)
+            //it creates what would be a row with only non default values from the current numbers on that row
+            val row = mutableListOf<Int>()
+            for (columnIndex in 0..< boardSize) {
+                val cell = boardGame[rowIndex][columnIndex]
+                if (cell != DEFAULT_VALUE) {
+                    row.add(cell)
                 }
             }
 
+            //row line after combining numbers
             val newRow = mutableListOf<Int>()
             //this was thought first for the [LEFT] case, so for [RIGHT] it reverse the row
             if (movementDirection == RIGHT) {
@@ -128,8 +128,9 @@ class MoveNumbersUseCase {
         movementDirection: MovementDirection
     ): MutableList<MutableList<Int>> {
         for (columnIndex in 0..<boardSize) {
-            val column = mutableListOf<Int>()
+
             //it creates what would be a column with only non default values from the current numbers on that column
+            val column = mutableListOf<Int>()
             for (rowIndex in 0..<boardSize) {
                 val cell = boardGame[rowIndex][columnIndex]
                 if (cell != DEFAULT_VALUE) {
@@ -137,10 +138,12 @@ class MoveNumbersUseCase {
                 }
             }
 
+            //column line after combining numbers
             val newColumn = mutableListOf<Int>()
             if (movementDirection == DOWN) {
                 column.reverse()
             }
+
             while (column.isNotEmpty()) {
                 if (column.size > 1 && column[0] == column[1]) {
                     newColumn.add(column[0] * 2)
@@ -165,4 +168,35 @@ class MoveNumbersUseCase {
         }
         return boardGame
     }
+}
+
+/**
+ * Method added to copy the boardGame that I use without changing
+ * how I handle the change on the cells and avoiding a problem referencing memory.
+ * **/
+fun MutableList<MutableList<Int>>.copy(): MutableList<MutableList<Int>> {
+    val list = mutableListOf<MutableList<Int>>()
+    for (rowIndex in 0..<size) {
+        val subList = mutableListOf<Int>()
+        for (cellIndex in 0..<size) {
+            subList.add(this[rowIndex][cellIndex])
+        }
+        list.add(subList)
+    }
+    return list
+}
+
+/**
+ * It checks cell by cell if the original boardGame and the new one
+ * have the same cells on the same positions.
+ * **/
+fun MutableList<MutableList<Int>>.isTheSameBoard(other: MutableList<MutableList<Int>>): Boolean {
+    for (rowIndex in 0..<size) {
+        for (cellIndex in 0..<size) {
+            if (this[rowIndex][cellIndex] != other[rowIndex][cellIndex]) {
+                return false
+            }
+        }
+    }
+    return true
 }
