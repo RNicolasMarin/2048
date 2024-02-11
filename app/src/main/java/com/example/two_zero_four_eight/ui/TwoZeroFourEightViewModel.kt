@@ -5,15 +5,17 @@ import com.example.two_zero_four_eight.model.GameState
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.use_cases.CreateBoardGameUseCase
 import com.example.two_zero_four_eight.use_cases.MoveNumbersUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class TwoZeroFourEightViewModel: ViewModel() {
-
-    ////inject
-    private val boardGameUseCases = CreateBoardGameUseCase()
-    private val moveNumbersUseCase = MoveNumbersUseCase()
+@HiltViewModel
+class TwoZeroFourEightViewModel @Inject constructor(
+    private val boardGameUseCases: CreateBoardGameUseCase,
+    private val moveNumbersUseCase: MoveNumbersUseCase
+) : ViewModel() {
 
     private val _gameState = MutableStateFlow(GameState())
     val gameState = _gameState.asStateFlow()

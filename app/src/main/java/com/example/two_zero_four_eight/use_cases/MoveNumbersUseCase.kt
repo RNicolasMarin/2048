@@ -3,8 +3,12 @@ package com.example.two_zero_four_eight.use_cases
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
 import com.example.two_zero_four_eight.use_cases.utils.MoveNumberResult
+import javax.inject.Inject
 
-class MoveNumbersUseCase {
+class MoveNumbersUseCase @Inject constructor(
+    private val useCase1: AddNumberToBoardGameUseCase,
+    private val useCase2: IsTherePossibleMovesUseCase
+) {
 
     /**
      * 1) Moves the numbers lines (rows or columns depending on [movementDirection]) and
@@ -26,11 +30,9 @@ class MoveNumbersUseCase {
             return MoveNumberResult(boardGame, isGameOver)
 
         //2) if there's empty cells add number
-        val useCase1 = AddNumberToBoardGameUseCase()
         boardGameAfterMove = useCase1.addNumber(boardGameAfterMove)
 
         //3) Check if there's any possible move
-        val useCase2 = IsTherePossibleMovesUseCase()
         return useCase2.existMovesToContinue(boardGameAfterMove)
     }
 

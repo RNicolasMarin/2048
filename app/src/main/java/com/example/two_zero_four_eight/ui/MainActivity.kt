@@ -38,7 +38,9 @@ import com.example.two_zero_four_eight.ui.utils.DragGesturesDirectionDetector
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
 import com.example.two_zero_four_eight.use_cases.DEFAULT_VALUE
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
