@@ -26,7 +26,7 @@ class TwoZeroFourEightViewModel: ViewModel() {
     private fun startNewGame() {
         _gameState.update {
             it.copy(
-                board = boardGameUseCases.createBoardGame(3),
+                board = boardGameUseCases.createBoardGame(4),
                 isGameOver = false
             )
         }
