@@ -46,7 +46,8 @@ fun DragGesturesDirectionDetector(
     modifier: Modifier = Modifier,
     resetAtTheEnd: Boolean = true,
     difference: Float = 40f,
-    onDirectionDetected: (MovementDirection) -> Unit
+    onDirectionDetected: (MovementDirection) -> Unit,
+    content: @Composable () -> Unit
 ) {
 
     var startPosition by remember { mutableStateOf(Offset(0f, 0f)) }
@@ -87,7 +88,9 @@ fun DragGesturesDirectionDetector(
             currentDirection = newDirection
             onDirectionDetected(currentDirection)
         }
-    })
+    }) {
+        content()
+    }
 }
 
 fun getNewDirection(current: Offset, start: Offset, difference: Float) =
