@@ -25,7 +25,7 @@ class TwoZeroFourEightViewModel @Inject constructor(
     }
 
     ////check where to get the size value from later on
-    private fun startNewGame() {
+    fun startNewGame() {
         _gameState.update {
             it.copy(
                 board = boardGameUseCases.createBoardGame(4),

@@ -116,7 +116,7 @@ fun BoardGameScreen(viewModel: TwoZeroFourEightViewModel, uiState: GameState) {
                 IconButton(
                     modifier = Modifier.offset(y = reStartButtonY),
                     onClick = {
-
+                        viewModel.startNewGame()
                     }
                 )
             }
