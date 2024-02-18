@@ -29,32 +29,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.two_zero_four_eight.R
 import com.example.two_zero_four_eight.model.GameState
+import com.example.two_zero_four_eight.model.GameStatus.*
 import com.example.two_zero_four_eight.ui.TwoZeroFourEightViewModel
 import com.example.two_zero_four_eight.ui.components.AppName
 import com.example.two_zero_four_eight.ui.components.AppNameDefaultHeight
 import com.example.two_zero_four_eight.ui.components.IconButton
 import com.example.two_zero_four_eight.ui.components.IconButtonHeight
 import com.example.two_zero_four_eight.ui.theme.Black
-import com.example.two_zero_four_eight.ui.theme.Green1
-import com.example.two_zero_four_eight.ui.theme.Green2
-import com.example.two_zero_four_eight.ui.theme.Green3
-import com.example.two_zero_four_eight.ui.theme.Green4
-import com.example.two_zero_four_eight.ui.theme.Green5
-import com.example.two_zero_four_eight.ui.theme.Green6
 import com.example.two_zero_four_eight.ui.theme.Green7
-import com.example.two_zero_four_eight.ui.theme.Grey1
 import com.example.two_zero_four_eight.ui.theme.Grey2
-import com.example.two_zero_four_eight.ui.theme.White
 import com.example.two_zero_four_eight.ui.utils.DragGesturesDirectionDetector
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
+import com.example.two_zero_four_eight.ui.utils.getCellData
 import com.example.two_zero_four_eight.use_cases.DEFAULT_VALUE
 
 val corners = 10.dp
@@ -91,8 +86,14 @@ fun BoardGameScreen(viewModel: TwoZeroFourEightViewModel, uiState: GameState) {
 
             BoardGame(uiState.board, currentDirection, uiBoardSize)
             Spacer(modifier = Modifier.height(IconButtonHeight + 10.dp))
+
+            val textMessageId = when (uiState.gameStatus) {
+                PLAYING -> R.string.message_empty
+                GAME_OVER -> R.string.message_game_over
+                YOU_WIN -> R.string.message_you_win
+            }
             Text(
-                text = "This is a message",
+                text = stringResource(textMessageId),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -195,43 +196,3 @@ fun BoardGameCell(cellNumber: Int, uiCellSize: Dp) {
         }
     }
 }
-
-fun getCellData(cellData: Int): CellData {
-    val backgroundColor = when (cellData) {
-        DEFAULT_VALUE -> Grey1
-        2 -> Green7
-        4 -> Green6
-        8 -> Green5
-        16 -> Green4
-        32 -> Green3
-        64 -> Green2
-        128 -> Green1
-
-        256 -> Green7
-        512 -> Green6
-        1024 -> Green5
-        2048 -> Green4
-        4096 -> Green3
-        8192 -> Green2
-
-        else -> Green7
-    }
-    val textColor = when (cellData) {
-        2, 4, 8, 16 -> Black
-        32, 64, 128 -> White
-
-        256, 512, 1024, 2048 -> Black
-        4096, 8192 -> White
-
-        else -> Black
-    }
-    return CellData(
-        backgroundColor = backgroundColor,
-        textColor = textColor
-    )
-}
-
-data class CellData(
-    val backgroundColor: Color,
-    val textColor: Color
-)

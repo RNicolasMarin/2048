@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">2048</string>
+
+    <string name="message_game_over">Game over</string>
+    <string name="message_you_win">You win</string>
+    <string name="message_empty" />
 </resources>

@@ -2,7 +2,9 @@ package com.example.two_zero_four_eight.ui
 
 import androidx.lifecycle.ViewModel
 import com.example.two_zero_four_eight.model.GameState
+import com.example.two_zero_four_eight.model.GameStatus.*
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
+import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
 import com.example.two_zero_four_eight.use_cases.CreateBoardGameUseCase
 import com.example.two_zero_four_eight.use_cases.MoveNumbersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,6 +12,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+
+const val DEFAULT_NUMBER_TO_WIN = 16
 
 @HiltViewModel
 class TwoZeroFourEightViewModel @Inject constructor(
@@ -28,20 +32,23 @@ class TwoZeroFourEightViewModel @Inject constructor(
     fun startNewGame() {
         _gameState.update {
             it.copy(
-                board = boardGameUseCases.createBoardGame(4),
-                isGameOver = false
+                board = boardGameUseCases.createBoardGame(3),
+                gameStatus = PLAYING,
+                numberToWin = DEFAULT_NUMBER_TO_WIN
             )
         }
     }
 
     fun moveNumbers(direction: MovementDirection) = with(_gameState.value) {
+        if (direction == NONE) return@with
 
-        val newBoard = moveNumbersUseCase.moveNumbers(board, direction, isGameOver)
+        val newBoard = moveNumbersUseCase.moveNumbers(board, direction, gameStatus, numberToWin)
 
         _gameState.update {
             it.copy(
                 board = newBoard.boardGame,
-                isGameOver = newBoard.isGameOver
+                gameStatus = newBoard.gameStatus,
+                numberToWin = newBoard.numberToWin
             )
         }
     }
