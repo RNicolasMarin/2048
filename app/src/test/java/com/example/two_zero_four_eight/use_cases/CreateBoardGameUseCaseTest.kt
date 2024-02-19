@@ -7,10 +7,12 @@ import org.junit.Test
 class CreateBoardGameUseCaseTest {
 
     private lateinit var moveNumbersUseCase: CreateBoardGameUseCase
+    private lateinit var addNumberToBoardGameUseCase: AddNumberToBoardGameUseCase
 
     @Before
     fun setUp() {
-        moveNumbersUseCase = CreateBoardGameUseCase()
+        addNumberToBoardGameUseCase = AddNumberToBoardGameUseCase()
+        moveNumbersUseCase = CreateBoardGameUseCase(addNumberToBoardGameUseCase)
     }
 
     @Test

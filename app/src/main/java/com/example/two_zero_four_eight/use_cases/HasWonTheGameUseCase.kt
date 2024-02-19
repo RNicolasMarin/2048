@@ -31,14 +31,7 @@ class HasWonTheGameUseCase {
      * Searches within [boardGame] for a cell with the value [nextHighNumber]
      * **/
     private fun hasTheNextHighNumber(boardGame: MutableList<MutableList<Int>>, nextHighNumber: Int): Boolean {
-        for (rowIndex in 0..<boardGame.size) {
-            for (index in 0..<boardGame.size) {
-                val number = boardGame[rowIndex][index]
-                if (number == nextHighNumber) {
-                    return true
-                }
-            }
-        }
-        return false
+        val result = boardGame.flatten().firstOrNull { number -> number == nextHighNumber }
+        return result != null
     }
 }
