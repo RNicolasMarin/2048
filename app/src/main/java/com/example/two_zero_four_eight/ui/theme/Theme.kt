@@ -2,6 +2,7 @@ package com.example.two_zero_four_eight.ui.theme
 
 import android.app.Activity
 import android.content.res.Configuration
+import android.content.res.Configuration.*
 import android.os.Build
 import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -12,6 +13,8 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass.Companion
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Compact
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass.Companion.Medium
@@ -76,10 +79,14 @@ fun TwoZeroFourEightTheme(
 
     val window = calculateWindowSizeClass(activity = activity)
     val config = LocalConfiguration.current
-    val appDimes = getAppDimens(window, config)
-    val appTypography = getAppTypography(window, config)
 
-    ProvideDimens(appDimes) {
+    val isBothCompact = window.heightSizeClass == Companion.Compact && window.widthSizeClass == Compact
+    val isPortrait = getIsPortrait(config, isBothCompact)
+
+    val appDimes = getAppDimens(window, config, isPortrait)
+    val appTypography = getAppTypography(window, config, isPortrait)
+
+    ProvideScreenConfig(appDimes, isPortrait, isBothCompact) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = appTypography,
@@ -88,57 +95,121 @@ fun TwoZeroFourEightTheme(
     }
 }
 
-fun getAppDimens(window: WindowSizeClass, config: Configuration): Dimens {
-    Log.d("getAppDimens", "config.screenWidthDp: ${config.screenWidthDp}, config.screenHeightDp: ${config.screenHeightDp}")
-    return when (window.widthSizeClass) {
-        Compact -> {
+fun getIsPortrait(config: Configuration, isBothCompact: Boolean): Boolean {
+    val isPortrait = config.orientation == ORIENTATION_PORTRAIT
+    if (isBothCompact) {
+        //to show correctly the orientation on split screens
+        return !isPortrait
+    }
+    return isPortrait
+}
 
-            val width = config.screenWidthDp
-            when {
-                width <= 360 -> {
-                    Log.d("getAppDimens", "Dimen: CompactSmallDimens")
-                    CompactSmallDimens
-                }
-                width < 599 -> {
-                    Log.d("getAppDimens", "Dimen: CompactMediumDimens")
-                    CompactMediumDimens
-                }
-                else -> {
-                    Log.d("getAppDimens", "Dimen: CompactDimens")
-                    CompactDimens
+fun getAppDimens(window: WindowSizeClass, config: Configuration, isPortrait: Boolean): Dimens {
+    Log.d("getAppDimens", "config.screenWidthDp: ${config.screenWidthDp}, config.screenHeightDp: ${config.screenHeightDp}")
+    return if (isPortrait) {
+        when (window.widthSizeClass) {
+            Compact -> {
+
+                val width = config.screenWidthDp
+                when {
+                    width <= 360 -> {
+                        Log.d("getAppDimens", "Dimen: CompactSmallDimens")
+                        CompactSmallDimens
+                    }
+                    width < 480 -> {// 599 -> {//361..480
+                        Log.d("getAppDimens", "Dimen: CompactMediumDimens")
+                        CompactMediumDimens
+                    }
+                    else -> {//481..599
+                        Log.d("getAppDimens", "Dimen: CompactDimens")
+                        CompactDimens
+                    }
                 }
             }
-        }
 
-        Medium -> {
-            Log.d("getAppDimens", "Dimen: MediumDimens")
-            MediumDimens
-        }
+            Medium -> {
+                Log.d("getAppDimens", "Dimen: MediumDimens")
+                MediumDimens
+            }
 
-        else -> {
-            Log.d("getAppDimens", "Dimen: ExpandedDimens")
-            ExpandedDimens
+            else -> {
+                Log.d("getAppDimens", "Dimen: ExpandedDimens")
+                ExpandedDimens
+            }
+        }
+    } else {
+        when (window.heightSizeClass) {
+            WindowHeightSizeClass.Compact -> {
+
+                val height = config.screenHeightDp
+                when {
+                    height <= 360 -> {
+                        Log.d("getAppDimens", "Dimen: CompactSmallDimens")
+                        CompactSmallDimens
+                    }
+                    height < 480 -> {
+                        Log.d("getAppDimens", "Dimen: CompactMediumDimens")
+                        CompactMediumDimens
+                    }
+                    else -> {
+                        Log.d("getAppDimens", "Dimen: CompactDimens")
+                        CompactDimens
+                    }
+                }
+            }
+
+            WindowHeightSizeClass.Medium -> {
+                Log.d("getAppDimens", "Dimen: MediumDimens")
+                MediumDimens
+            }
+
+            else -> {
+                Log.d("getAppDimens", "Dimen: ExpandedDimens")
+                ExpandedDimens
+            }
         }
     }
 }
 
-fun getAppTypography(window: WindowSizeClass, config: Configuration): Typography {
-    return when (window.widthSizeClass) {
-        Compact -> {
-            val width = config.screenWidthDp
-            when {
-                width <= 360 -> CompactSmallTypography
-                width < 599 -> CompactMediumTypography
-                else -> CompactTypography
+fun getAppTypography(window: WindowSizeClass, config: Configuration, isPortrait: Boolean): Typography {
+    return if (isPortrait) {
+        when (window.widthSizeClass) {
+            Compact -> {
+                val width = config.screenWidthDp
+                when {
+                    width <= 360 -> CompactSmallTypography
+                    width < 480 -> CompactMediumTypography
+                    else -> CompactTypography
+                }
+            }
+
+            Medium -> {
+                MediumTypography
+            }
+
+            else -> {
+                ExpandedTypography
             }
         }
+    } else {
+        when (window.heightSizeClass) {
+            WindowHeightSizeClass.Compact -> {
+                val height = config.screenHeightDp
+                when {
+                    height <= 360 -> CompactSmallTypography
+                    height < 480 -> CompactMediumTypography
+                    else -> CompactTypography
+                }
+            }
 
-        Medium -> {
-            MediumTypography
-        }
+            WindowHeightSizeClass.Medium -> {
+                MediumTypography
+            }
 
-        else -> {
-            ExpandedTypography
+            else -> {
+                ExpandedTypography
+            }
         }
     }
+
 }

@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 data class Dimens(
-    val outerPadding: Dp = 18.dp,
+    val outerPadding: Dp = 14.dp,
     val innerPadding: Dp = 10.dp,
     val corners: Dp = 10.dp,
     val boardInnerPadding: Dp = 3.dp,
@@ -18,7 +18,7 @@ data class Dimens(
 
 val CompactSmallDimens = Dimens()//phone
 
-val CompactMediumDimens = Dimens(//emulator
+val CompactMediumDimens = Dimens(
     nameHorizontalPadding = 26.dp,
     currentRecordPaddingBetween = 20.dp
 )

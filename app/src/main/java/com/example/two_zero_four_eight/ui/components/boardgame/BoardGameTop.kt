@@ -1,7 +1,6 @@
 package com.example.two_zero_four_eight.ui.components.boardgame
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,7 +26,7 @@ fun BoardGameTop(
     modifier: Modifier = Modifier
 ) {
     val outerPadding = MaterialTheme.dimens.outerPadding
-    Row(
+    Column(
         modifier = modifier.fillMaxWidth()
             .padding(
                 start = outerPadding,
@@ -40,9 +39,9 @@ fun BoardGameTop(
         )
         Column(
             horizontalAlignment = Alignment.End,
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Spacer(modifier = Modifier.height(singlePartHeight))
+            Spacer(modifier = Modifier.height(outerPadding))
 
             CurrentRecord(
                 data = dataNumber,

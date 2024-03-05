@@ -7,18 +7,41 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 
 @Composable
-fun ProvideDimens(
-    dimensions: Dimens,
+fun ProvideScreenConfig(
+    dimens: Dimens,
+    isPortrait: Boolean,
+    isBothCompact: Boolean,
     content: @Composable () -> Unit
 ) {
-    val dimensionSet = remember { dimensions }
-    CompositionLocalProvider(LocalAppDimens provides dimensionSet, content = content)
+    val dimensSet = remember { dimens }
+    val isPortraitSet = remember { isPortrait }
+    val isBothCompactSet = remember { isBothCompact }
+    CompositionLocalProvider(
+        LocalAppDimens provides dimensSet,
+        LocalAppIsPortrait provides isPortraitSet,
+        LocalAppIsBothCompact provides isBothCompactSet,
+        content = content
+    )
 }
 
 private val LocalAppDimens = staticCompositionLocalOf {
     CompactDimens
 }
+private val LocalAppIsPortrait = staticCompositionLocalOf {
+    true
+}
+private val LocalAppIsBothCompact = staticCompositionLocalOf {
+    false
+}
 
 val MaterialTheme.dimens: Dimens
     @Composable
     get() = LocalAppDimens.current
+
+val MaterialTheme.isPortrait: Boolean
+    @Composable
+    get() = LocalAppIsPortrait.current
+
+val MaterialTheme.isBothCompact: Boolean
+    @Composable
+    get() = LocalAppIsBothCompact.current
