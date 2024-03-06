@@ -1,7 +1,7 @@
 package com.example.two_zero_four_eight.use_cases
 
+import com.example.two_zero_four_eight.model.GameState
 import com.example.two_zero_four_eight.model.GameStatus.*
-import com.example.two_zero_four_eight.use_cases.utils.MoveNumberResult
 
 class HasWonTheGameUseCase {
 
@@ -10,21 +10,20 @@ class HasWonTheGameUseCase {
      * in that case changes the status to [YOU_WIN] and duplicate the [nextHighNumber] value.
      * **/
     fun checkIfHasWonTheGame(
-        result: MoveNumberResult,
-        nextHighNumber: Int
-    ): MoveNumberResult {
+        gameState: GameState
+    ): GameState = with(gameState) {
 
-        if (result.gameStatus != PLAYING) return result
+        if (gameStatus != PLAYING) return this
 
-        val hasTheNextHighNumber = hasTheNextHighNumber(result.boardGame, nextHighNumber)
-        if (!hasTheNextHighNumber) return result
+        val hasTheNextHighNumber = hasTheNextHighNumber(board, numberToWin)
+        if (!hasTheNextHighNumber) return this
 
-        result.apply {
+        this.apply {
             gameStatus = YOU_WIN
-            numberToWin = nextHighNumber * 2
+            numberToWin *= 2
         }
 
-        return result
+        return this
     }
 
     /**

@@ -6,6 +6,7 @@ import com.example.two_zero_four_eight.use_cases.CreateBoardGameUseCase
 import com.example.two_zero_four_eight.use_cases.HasWonTheGameUseCase
 import com.example.two_zero_four_eight.use_cases.IsTherePossibleMovesUseCase
 import com.example.two_zero_four_eight.use_cases.MoveNumbersUseCase
+import com.example.two_zero_four_eight.use_cases.UpdateCurrentRecordsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,12 +39,17 @@ object UseCasesModule {
         HasWonTheGameUseCase()
 
     @Provides
+    fun provideUpdateCurrentRecordsUseCase() =
+        UpdateCurrentRecordsUseCase()
+
+    @Provides
     fun provideMoveNumbersUseCase(
         useCase1: CombineAndMoveNumbersUseCase,
         useCase2: AddNumberToBoardGameUseCase,
         useCase3: IsTherePossibleMovesUseCase,
-        useCase4: HasWonTheGameUseCase
+        useCase4: HasWonTheGameUseCase,
+        useCase5: UpdateCurrentRecordsUseCase
     ): MoveNumbersUseCase {
-        return MoveNumbersUseCase(useCase1, useCase2, useCase3, useCase4)
+        return MoveNumbersUseCase(useCase1, useCase2, useCase3, useCase4, useCase5)
     }
 }

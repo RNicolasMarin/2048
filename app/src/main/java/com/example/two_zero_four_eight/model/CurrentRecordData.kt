@@ -1,6 +1,6 @@
 package com.example.two_zero_four_eight.model
 
 data class CurrentRecordData(
-    val currentValue: Int,
-    val recordValue: Int
+    var currentValue: Int = 0,
+    var recordValue: Int = 0
 )

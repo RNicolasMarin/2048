@@ -46,7 +46,7 @@ fun BoardGameScreenPortrait(
             if (showAllSections) {
                 BoardGameTop(
                     singlePartHeight = uiSectionSizes.singlePartHeight,
-                    dataNumber = CurrentRecordData(currentValue = 32, recordValue = 1024),
+                    dataNumber = uiState.numberCurrentRecord,
                     dataScore = CurrentRecordData(currentValue = 6, recordValue = 3260),
                     modifier = Modifier.height(uiSectionSizes.topHeight)
                 )

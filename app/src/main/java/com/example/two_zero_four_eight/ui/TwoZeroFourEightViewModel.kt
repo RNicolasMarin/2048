@@ -1,6 +1,7 @@
 package com.example.two_zero_four_eight.ui
 
 import androidx.lifecycle.ViewModel
+import com.example.two_zero_four_eight.model.CurrentRecordData
 import com.example.two_zero_four_eight.model.GameState
 import com.example.two_zero_four_eight.model.GameStatus.*
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
@@ -34,21 +35,23 @@ class TwoZeroFourEightViewModel @Inject constructor(
             it.copy(
                 board = boardGameUseCases.createBoardGame(3),
                 gameStatus = PLAYING,
-                numberToWin = DEFAULT_NUMBER_TO_WIN
+                numberToWin = DEFAULT_NUMBER_TO_WIN,
+                numberCurrentRecord = CurrentRecordData()
             )
         }
     }
 
-    fun moveNumbers(direction: MovementDirection) = with(_gameState.value) {
-        if (direction == NONE) return@with
+    fun moveNumbers(direction: MovementDirection)  {
+        if (direction == NONE) return
 
-        val newBoard = moveNumbersUseCase.moveNumbers(board, direction, gameStatus, numberToWin)
+        val newBoard = moveNumbersUseCase.moveNumbers(direction, _gameState.value)
 
         _gameState.update {
             it.copy(
-                board = newBoard.boardGame,
+                board = newBoard.board,
                 gameStatus = newBoard.gameStatus,
-                numberToWin = newBoard.numberToWin
+                numberToWin = newBoard.numberToWin,
+                numberCurrentRecord = newBoard.numberCurrentRecord
             )
         }
     }

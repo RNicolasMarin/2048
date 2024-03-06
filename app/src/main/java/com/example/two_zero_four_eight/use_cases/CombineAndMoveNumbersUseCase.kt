@@ -1,9 +1,14 @@
 package com.example.two_zero_four_eight.use_cases
 
+import com.example.two_zero_four_eight.model.GameState
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
 
 class CombineAndMoveNumbersUseCase {
+
+    private var boardSize = 0
+    private var boardGame = mutableListOf(mutableListOf<Int>())
+    private var boardGameAfterMove = mutableListOf(mutableListOf<Int>())
 
     /**
      * If [movementDirection] was [NONE] (shouldn't apply changes, it's an extra case) or
@@ -11,37 +16,35 @@ class CombineAndMoveNumbersUseCase {
      * In other case would return the the boardGame with the move applied.
      * **/
     fun combineAndMove(
-        boardGameOriginal: MutableList<MutableList<Int>>,
-        movementDirection: MovementDirection
-    ): MutableList<MutableList<Int>>? {
-        val boardSize = boardGameOriginal.size
-        val boardGame = boardGameOriginal.copy()
+        movementDirection: MovementDirection,
+        gameState: GameState
+    ): MutableList<MutableList<Int>>? = with(gameState) {
+        boardSize = board.size
+        boardGame = board.copy()
 
-        val boardGameAfterMove = when (movementDirection) {
+        when (movementDirection) {
             LEFT, RIGHT -> {
-                getLeftRightMove(boardSize, boardGame, movementDirection)
+                applyLeftRightMove(movementDirection)
             }
 
             UP, DOWN -> {
-                getUpDownMove(boardSize, boardGame, movementDirection)
+                applyUpDownMove(movementDirection)
             }
 
-            NONE -> boardGame
+            NONE -> boardGameAfterMove = boardGame
         }
 
         if (movementDirection == NONE) return null
-        return if (boardGameOriginal.isTheSameBoard(boardGameAfterMove)) null else boardGameAfterMove
+        return if (board.isTheSameBoard(boardGameAfterMove)) null else boardGameAfterMove
     }
 
     /**
      * It returns the MutableList<MutableList<Int>> that represents the boardGame but with the
      * numbers combined/moved to the left or right.
      * **/
-    private fun getLeftRightMove(
-        boardSize: Int,
-        boardGame: MutableList<MutableList<Int>>,
-        movementDirection: MovementDirection
-    ): MutableList<MutableList<Int>> {
+    private fun applyLeftRightMove(
+        movementDirection: MovementDirection,
+    ) {
         for (rowIndex in 0..< boardSize) {
 
             //it creates what would be a row with only non default values from the current numbers on that row
@@ -62,13 +65,14 @@ class CombineAndMoveNumbersUseCase {
 
             //it combines and add each consecutive pair of numbers on the row and add without modifying the ones that are not equals
             while (row.isNotEmpty()) {
+                var numberOfTimes = 1
                 if (row.size > 1 && row[0] == row[1]) {
-                    newRow.add(row[0] * 2)
+                    numberOfTimes = 2
                     row.removeAt(1)
-                    row.removeAt(0)
-                    continue
                 }
-                newRow.add(row[0])
+
+                val newNumber = row[0] * numberOfTimes
+                newRow.add(newNumber)
                 row.removeAt(0)
             }
 
@@ -83,7 +87,7 @@ class CombineAndMoveNumbersUseCase {
             }
             boardGame[rowIndex] = newRow
         }
-        return boardGame
+        boardGameAfterMove = boardGame
     }
 
     /**
@@ -93,11 +97,9 @@ class CombineAndMoveNumbersUseCase {
      * It similar to getLeftRightMove but with some changes on the way to move on the Lists and
      * how it handle the numbers.
      * **/
-    private fun getUpDownMove(
-        boardSize: Int,
-        boardGame: MutableList<MutableList<Int>>,
-        movementDirection: MovementDirection
-    ): MutableList<MutableList<Int>> {
+    private fun applyUpDownMove(
+        movementDirection: MovementDirection,
+    ) {
         for (columnIndex in 0..<boardSize) {
 
             //it creates what would be a column with only non default values from the current numbers on that column
@@ -116,13 +118,14 @@ class CombineAndMoveNumbersUseCase {
             }
 
             while (column.isNotEmpty()) {
+                var numberOfTimes = 1
                 if (column.size > 1 && column[0] == column[1]) {
-                    newColumn.add(column[0] * 2)
+                    numberOfTimes = 2
                     column.removeAt(1)
-                    column.removeAt(0)
-                    continue
                 }
-                newColumn.add(column[0])
+
+                val newNumber = column[0] * numberOfTimes
+                newColumn.add(newNumber)
                 column.removeAt(0)
             }
 
@@ -137,7 +140,7 @@ class CombineAndMoveNumbersUseCase {
                 boardGame[rowIndex][columnIndex] = newColumn[rowIndex]
             }
         }
-        return boardGame
+        boardGameAfterMove = boardGame
     }
 }
 

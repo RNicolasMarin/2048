@@ -1,5 +1,6 @@
 package com.example.two_zero_four_eight.use_cases
 
+import com.example.two_zero_four_eight.model.GameState
 import com.example.two_zero_four_eight.model.GameStatus.*
 import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
 import com.google.common.truth.Truth.assertThat
@@ -15,15 +16,22 @@ class MoveNumbersUseCaseTest {
     private lateinit var useCase2: AddNumberToBoardGameUseCase
     private lateinit var useCase3: IsTherePossibleMovesUseCase
     private lateinit var useCase4: HasWonTheGameUseCase
+    private lateinit var useCase5: UpdateCurrentRecordsUseCase
+    private lateinit var gameState: GameState
 
     @Before
     fun setUp() {
+        gameState = GameState(
+            gameStatus = PLAYING,
+            numberToWin = NEXT_HIGH_NUMBER
+        )
         useCase1 = CombineAndMoveNumbersUseCase()
         useCase2 = AddNumberToBoardGameUseCase()
         useCase3 = IsTherePossibleMovesUseCase()
         useCase4 = HasWonTheGameUseCase()
+        useCase5 = UpdateCurrentRecordsUseCase()
         moveNumbersUseCase = MoveNumbersUseCase(
-            useCase1, useCase2, useCase3, useCase4
+            useCase1, useCase2, useCase3, useCase4, useCase5
         )
     }
 
@@ -41,12 +49,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  4,DEF,  2,DEF),
             mutableListOf(  8,  4,  4,DEF)
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, LEFT, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
         assertThat(boardResult[0][0]).isEqualTo(4)
         assertThat(boardResult[0][1]).isEqualTo(4)
@@ -76,12 +85,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf( 16,  8,  4,  2),
             mutableListOf( 16,  8,  4,  2),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, LEFT, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[0][0]).isEqualTo(8)
@@ -110,12 +120,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf( 32, 16, 64,  4),
             mutableListOf( 16, 64, 32,  2),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, LEFT, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
         assertThat(actual.gameStatus).isEqualTo(GAME_OVER)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[0][0]).isEqualTo(8)
@@ -150,12 +161,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(DEF,DEF,DEF,DEF),
             mutableListOf(  4,DEF,DEF,DEF),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, LEFT, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult).isEqualTo(expected)
     }
 
@@ -172,12 +184,16 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  4,DEF,  2,DEF),
             mutableListOf(  8,  8,DEF,DEF)
         )
+        gameState.apply {
+            board = boardGame
+            numberToWin = 16
+        }
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, LEFT, PLAYING, 16)
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
         assertThat(actual.gameStatus).isEqualTo(YOU_WIN)
         assertThat(actual.numberToWin).isEqualTo(32)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
         assertThat(boardResult[0][0]).isEqualTo(4)
         assertThat(boardResult[0][1]).isEqualTo(4)
@@ -208,12 +224,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(DEF,  2,DEF,  4),
             mutableListOf(DEF,  4,  4,  8)
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, RIGHT, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(RIGHT, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
         assertThat(boardResult[0][2]).isEqualTo(4)
         assertThat(boardResult[0][3]).isEqualTo(4)
@@ -243,12 +260,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  2,  4,  8, 16),
             mutableListOf(  2,  4,  8, 16),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, RIGHT, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(RIGHT, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[0][3]).isEqualTo(8)
@@ -277,12 +295,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  4, 64, 16, 32),
             mutableListOf(  2, 32, 64, 16),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, RIGHT, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(RIGHT, gameState)
         assertThat(actual.gameStatus).isEqualTo(GAME_OVER)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[0][3]).isEqualTo(8)
@@ -317,12 +336,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(DEF,DEF,DEF,DEF),
             mutableListOf(DEF,DEF,DEF,  4),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, RIGHT, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(RIGHT, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult).isEqualTo(expected)
     }
 
@@ -339,12 +359,16 @@ class MoveNumbersUseCaseTest {
             mutableListOf(DEF,  2,DEF,  4),
             mutableListOf(DEF,DEF,  8,  8)
         )
+        gameState.apply {
+            board = boardGame
+            numberToWin = 16
+        }
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, RIGHT, PLAYING, 16)
+        val actual = moveNumbersUseCase.moveNumbers(RIGHT, gameState)
         assertThat(actual.gameStatus).isEqualTo(YOU_WIN)
         assertThat(actual.numberToWin).isEqualTo(32)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
         assertThat(boardResult[0][2]).isEqualTo(4)
         assertThat(boardResult[0][3]).isEqualTo(4)
@@ -375,12 +399,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  2,  4,  2,  4),
             mutableListOf(  2,DEF,DEF,DEF)
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, UP, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(UP, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
         assertThat(boardResult[0][0]).isEqualTo(4)
         assertThat(boardResult[0][1]).isEqualTo(4)
@@ -408,12 +433,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  2,  4,  4,  4),
             mutableListOf(  2,  2,  2,  2),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, UP, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(UP, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[0]).isEqualTo(mutableListOf(  8, 16, 16, 16))
@@ -442,12 +468,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf( 64, 16, 64, 32),
             mutableListOf( 32,  8,  4,  2),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, UP, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(UP, gameState)
         assertThat(actual.gameStatus).isEqualTo(GAME_OVER)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[0]).isEqualTo(mutableListOf(  8, 16, 32, 16))
@@ -482,12 +509,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  4,DEF,DEF,DEF),
             mutableListOf(DEF,DEF,DEF,DEF),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, UP, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(UP, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult).isEqualTo(expected)
     }
 
@@ -504,12 +532,16 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  2,  4,  2,DEF),
             mutableListOf(  2,DEF,DEF,DEF)
         )
+        gameState.apply {
+            board = boardGame
+            numberToWin = 16
+        }
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, UP, PLAYING, 16)
+        val actual = moveNumbersUseCase.moveNumbers(UP, gameState)
         assertThat(actual.gameStatus).isEqualTo(YOU_WIN)
         assertThat(actual.numberToWin).isEqualTo(32)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
         assertThat(boardResult[0][0]).isEqualTo(4)
         assertThat(boardResult[0][1]).isEqualTo(4)
@@ -538,12 +570,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  2,DEF,DEF,  4),
             mutableListOf(  2,DEF,  4,  8),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, DOWN, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(DOWN, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[3][0]).isEqualTo(4)
@@ -573,12 +606,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  4,  8,  8,  8),
             mutableListOf(  8, 16, 16, 16),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, DOWN, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(DOWN, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[3]).isEqualTo(mutableListOf(  8, 16, 16, 16))
@@ -607,12 +641,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  8, 32, 16, 64),
             mutableListOf(DEF, 16, 32, 16),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, DOWN, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(DOWN, gameState)
         assertThat(actual.gameStatus).isEqualTo(GAME_OVER)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[3]).isEqualTo(mutableListOf(  8, 16, 32, 16))
@@ -647,12 +682,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  8,DEF,DEF,DEF),
             mutableListOf( 16,  8,DEF,  4),
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, DOWN, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(DOWN, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult).isEqualTo(expected)
     }
 
@@ -669,12 +705,16 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  2,DEF,DEF,  8),
             mutableListOf(  2,DEF,  4,  8),
         )
+        gameState.apply {
+            board = boardGame
+            numberToWin = 16
+        }
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, DOWN, PLAYING, 16)
+        val actual = moveNumbersUseCase.moveNumbers(DOWN, gameState)
         assertThat(actual.gameStatus).isEqualTo(YOU_WIN)
         assertThat(actual.numberToWin).isEqualTo(32)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult.size).isEqualTo(4)
 
         assertThat(boardResult[3][0]).isEqualTo(4)
@@ -705,12 +745,13 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  2,  4,  2,  4),
             mutableListOf(  2,DEF,DEF,DEF)
         )
+        gameState.board = boardGame
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, NONE, PLAYING, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(NONE, gameState)
         assertThat(actual.gameStatus).isEqualTo(PLAYING)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult).isEqualTo(expected)
     }
 
@@ -728,13 +769,57 @@ class MoveNumbersUseCaseTest {
             mutableListOf(  2,  4,  2,  4),
             mutableListOf(  2,DEF,DEF,DEF)
         )
+        gameState.apply {
+            board = boardGame
+            gameStatus = GAME_OVER
+        }
 
-        val actual = moveNumbersUseCase.moveNumbers(boardGame, NONE, GAME_OVER, NEXT_HIGH_NUMBER)
+        val actual = moveNumbersUseCase.moveNumbers(NONE, gameState)
         assertThat(actual.gameStatus).isEqualTo(GAME_OVER)
         assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
 
-        val boardResult = actual.boardGame
+        val boardResult = actual.board
         assertThat(boardResult).isEqualTo(expected)
+    }
+
+    /*LEFT reach number to win while PLAYING
+     2-2-2-2         4-4-_-_
+     _-_-4-_         4-_-_-_
+     4-_-2-_         4-2-_-_
+     8-4-_-_         8-4-_-_*/
+    @Test
+    fun `LEFT PLAYING after reach number to win`() {
+        val boardGame = mutableListOf(
+            mutableListOf(  2,  2,  2,  2),
+            mutableListOf(DEF,DEF,  4,DEF),
+            mutableListOf(  4,DEF,  2,DEF),
+            mutableListOf(  8,  4,DEF,DEF)
+        )
+        gameState.apply {
+            board = boardGame
+            numberToWin = 16
+            gameStatus = YOU_WIN
+        }
+
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
+        assertThat(actual.gameStatus).isEqualTo(PLAYING)
+        assertThat(actual.numberToWin).isEqualTo(16)
+
+        val boardResult = actual.board
+        assertThat(boardResult.size).isEqualTo(4)
+        assertThat(boardResult[0][0]).isEqualTo(4)
+        assertThat(boardResult[0][1]).isEqualTo(4)
+
+        assertThat(boardResult[1][0]).isEqualTo(4)
+
+        assertThat(boardResult[2][0]).isEqualTo(4)
+        assertThat(boardResult[2][1]).isEqualTo(2)
+
+        assertThat(boardResult[3][0]).isEqualTo(8)
+        assertThat(boardResult[3][1]).isEqualTo(4)
+
+        val numbers = boardResult.flatten().count { it != DEF }
+        assertThat(numbers).isEqualTo(8)
     }
 
 }

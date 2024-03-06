@@ -41,7 +41,7 @@ fun BoardGameScreenLandscape(
         ) {
             if (showAllSections) {
                 BoardGameLeft(
-                    gameStatus = uiState.gameStatus,
+                    uiState = uiState,
                     uiSectionSizes = uiSectionSizes,
                     modifier = Modifier
                         .width(uiSectionSizes.singlePartWidth)

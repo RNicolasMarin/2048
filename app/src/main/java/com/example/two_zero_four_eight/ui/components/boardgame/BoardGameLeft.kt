@@ -6,12 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.two_zero_four_eight.model.CurrentRecordData
-import com.example.two_zero_four_eight.model.GameStatus
+import com.example.two_zero_four_eight.model.GameState
 import com.example.two_zero_four_eight.ui.screens.UiSectionSizesLandscape
 
 @Composable
 fun BoardGameLeft(
-    gameStatus: GameStatus,
+    uiState: GameState,
     uiSectionSizes: UiSectionSizesLandscape,
     modifier: Modifier = Modifier
 ) {
@@ -21,12 +21,12 @@ fun BoardGameLeft(
     ) {
         BoardGameTop(
             singlePartHeight = uiSectionSizes.singlePartHeight,
-            dataNumber = CurrentRecordData(currentValue = 32, recordValue = 1024),
+            dataNumber = uiState.numberCurrentRecord,
             dataScore = CurrentRecordData(currentValue = 6, recordValue = 3260),
             modifier = Modifier.height(uiSectionSizes.topHeight)
         )
         BoardGameBottom(
-            gameStatus = gameStatus,
+            gameStatus = uiState.gameStatus,
             singlePartHeight = uiSectionSizes.singlePartHeight,
         )
     }
