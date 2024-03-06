@@ -6,7 +6,7 @@ import com.example.two_zero_four_eight.model.GameStatus.*
 class IsTherePossibleMovesUseCase {
 
     /**
-     * It receives [boardGame] and checks:
+     * It receives [gameState] and checks:
      *
      * 1) If there's empty cells, keep playing.
      * 2) if there's something that can be combined (two consecutive cells

@@ -8,6 +8,7 @@ data class GameState(
     var gameStatus: GameStatus = PLAYING,
     var numberToWin: Int = DEFAULT_NUMBER_TO_WIN,
     var numberCurrentRecord: CurrentRecordData = CurrentRecordData(),
+    var scoreCurrentRecord: CurrentRecordData = CurrentRecordData(),
 )
 
 enum class GameStatus {

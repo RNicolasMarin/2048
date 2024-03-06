@@ -9,6 +9,7 @@ class CombineAndMoveNumbersUseCase {
     private var boardSize = 0
     private var boardGame = mutableListOf(mutableListOf<Int>())
     private var boardGameAfterMove = mutableListOf(mutableListOf<Int>())
+    private var score = 0
 
     /**
      * If [movementDirection] was [NONE] (shouldn't apply changes, it's an extra case) or
@@ -18,9 +19,10 @@ class CombineAndMoveNumbersUseCase {
     fun combineAndMove(
         movementDirection: MovementDirection,
         gameState: GameState
-    ): MutableList<MutableList<Int>>? = with(gameState) {
+    ): GameState? = with(gameState) {
         boardSize = board.size
         boardGame = board.copy()
+        score = scoreCurrentRecord.currentValue
 
         when (movementDirection) {
             LEFT, RIGHT -> {
@@ -35,7 +37,15 @@ class CombineAndMoveNumbersUseCase {
         }
 
         if (movementDirection == NONE) return null
-        return if (board.isTheSameBoard(boardGameAfterMove)) null else boardGameAfterMove
+
+        return if (board.isTheSameBoard(boardGameAfterMove)) {
+            null
+        } else {
+            gameState.apply {
+                board = boardGameAfterMove
+                scoreCurrentRecord.currentValue = score
+            }
+        }
     }
 
     /**
@@ -72,6 +82,9 @@ class CombineAndMoveNumbersUseCase {
                 }
 
                 val newNumber = row[0] * numberOfTimes
+                if (numberOfTimes == 2) {
+                    score += newNumber
+                }
                 newRow.add(newNumber)
                 row.removeAt(0)
             }
@@ -125,6 +138,9 @@ class CombineAndMoveNumbersUseCase {
                 }
 
                 val newNumber = column[0] * numberOfTimes
+                if (numberOfTimes == 2) {
+                    score += newNumber
+                }
                 newColumn.add(newNumber)
                 column.removeAt(0)
             }

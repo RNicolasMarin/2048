@@ -36,7 +36,8 @@ class TwoZeroFourEightViewModel @Inject constructor(
                 board = boardGameUseCases.createBoardGame(3),
                 gameStatus = PLAYING,
                 numberToWin = DEFAULT_NUMBER_TO_WIN,
-                numberCurrentRecord = CurrentRecordData()
+                numberCurrentRecord = CurrentRecordData(),
+                scoreCurrentRecord = CurrentRecordData()
             )
         }
     }
@@ -51,7 +52,8 @@ class TwoZeroFourEightViewModel @Inject constructor(
                 board = newBoard.board,
                 gameStatus = newBoard.gameStatus,
                 numberToWin = newBoard.numberToWin,
-                numberCurrentRecord = newBoard.numberCurrentRecord
+                numberCurrentRecord = newBoard.numberCurrentRecord,
+                scoreCurrentRecord = newBoard.scoreCurrentRecord
             )
         }
     }

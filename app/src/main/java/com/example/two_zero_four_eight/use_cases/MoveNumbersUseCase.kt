@@ -22,8 +22,8 @@ class MoveNumbersUseCase @Inject constructor(
      * 3) If there's empty cells or there's something that can be combined
      * continue playing. In other case is game over.
      *
-     * 4) If the status is [PLAYING] it checks if there's any cell with [nextHighNumber],
-     * in that case changes the status to [YOU_WIN] and duplicate the [nextHighNumber] value.
+     * 4) If the status is [PLAYING] it checks if there's any cell with [gameState.numberToWin],
+     * in that case changes the status to [YOU_WIN] and duplicate the [gameState.numberToWin] value.
      *
      * 5) Updates the current higher number
      * **/
@@ -33,14 +33,19 @@ class MoveNumbersUseCase @Inject constructor(
     ): GameState {
         //1) Move and Combine
         //If it's null there's no change on the boardGame or in isGameOver and return the original values
-        gameState.board = useCase1.combineAndMove(movementDirection, gameState) ?:
+        var result = useCase1.combineAndMove(movementDirection, gameState) ?:
             return gameState
+
+        gameState.apply {
+            board = result.board
+            scoreCurrentRecord = result.scoreCurrentRecord
+        }
 
         //2) if there's empty cells add number
         gameState.board = useCase2.addNumber(gameState.board)
 
         //3) Check if there's any possible move
-        var result = useCase3.checkMovesToContinue(gameState)
+        result = useCase3.checkMovesToContinue(gameState)
 
         //4) Checks if it reached the nextHighNumber
         result = useCase4.checkIfHasWonTheGame(result)

@@ -6,8 +6,8 @@ import com.example.two_zero_four_eight.model.GameStatus.*
 class HasWonTheGameUseCase {
 
     /**
-     * If the status is [PLAYING] it checks if there's any cell with [nextHighNumber],
-     * in that case changes the status to [YOU_WIN] and duplicate the [nextHighNumber] value.
+     * If the status is [PLAYING] it checks if there's any cell with [gameState.numberToWin],
+     * in that case changes the status to [YOU_WIN] and duplicate the [gameState.numberToWin] value.
      * **/
     fun checkIfHasWonTheGame(
         gameState: GameState
