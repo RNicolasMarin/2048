@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.two_zero_four_eight.model.GameState
+import com.example.two_zero_four_eight.data.model.GameState
 import com.example.two_zero_four_eight.ui.TwoZeroFourEightViewModel
 import com.example.two_zero_four_eight.ui.theme.isBothCompact
 import com.example.two_zero_four_eight.ui.theme.isPortrait

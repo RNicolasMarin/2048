@@ -91,4 +91,10 @@ dependencies {
     //WindowsSizeClass
     implementation("androidx.compose.material3:material3-window-size-class:1.2.0")
 
+    //Room
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+
 }

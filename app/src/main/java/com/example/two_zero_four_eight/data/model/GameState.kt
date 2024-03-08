@@ -1,6 +1,6 @@
-package com.example.two_zero_four_eight.model
+package com.example.two_zero_four_eight.data.model
 
-import com.example.two_zero_four_eight.model.GameStatus.*
+import com.example.two_zero_four_eight.data.model.GameStatus.*
 import com.example.two_zero_four_eight.ui.DEFAULT_NUMBER_TO_WIN
 
 data class GameState(

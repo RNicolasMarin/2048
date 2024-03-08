@@ -1,11 +1,18 @@
 package com.example.two_zero_four_eight.use_cases
 
+import com.example.two_zero_four_eight.data.model.CurrentRecordData
+import com.example.two_zero_four_eight.data.model.GameState
+import com.example.two_zero_four_eight.data.model.GameStatus.*
+import com.example.two_zero_four_eight.data.model.IndividualBestValues
+import com.example.two_zero_four_eight.data.repository.RecordRepository
+import com.example.two_zero_four_eight.ui.DEFAULT_NUMBER_TO_WIN
 import javax.inject.Inject
 
 const val DEFAULT_VALUE = -1
 
 class CreateBoardGameUseCase @Inject constructor(
-    private val useCase: AddNumberToBoardGameUseCase
+    private val useCase: AddNumberToBoardGameUseCase,
+    private val repository: RecordRepository
 ) {
 
     /** Initialize the BoardGame matrix (for both dimensions of the size of [size]) to represent
@@ -13,7 +20,7 @@ class CreateBoardGameUseCase @Inject constructor(
      *
      * Then adds the first and second number to the boardGame and returns it.
      * **/
-    fun createBoardGame(size: Int): MutableList<MutableList<Int>> {
+    suspend fun createBoardGame(size: Int): GameState {
         var boardGame = MutableList(size) { //rows
             MutableList(size) { //cells
                 DEFAULT_VALUE
@@ -23,6 +30,15 @@ class CreateBoardGameUseCase @Inject constructor(
         boardGame = useCase.addNumber(boardGame)
         boardGame = useCase.addNumber(boardGame)
 
-        return boardGame
+        val individualBestValues = repository.getIndividualBestValues(size) ?:
+            IndividualBestValues(score = 0, number = 0)
+
+        return GameState(
+            board = boardGame,
+            gameStatus = PLAYING,
+            numberToWin = DEFAULT_NUMBER_TO_WIN,
+            numberCurrentRecord = CurrentRecordData(recordValue = individualBestValues.number),
+            scoreCurrentRecord = CurrentRecordData(recordValue = individualBestValues.score)
+        )
     }
 }

@@ -1,7 +1,7 @@
 package com.example.two_zero_four_eight.use_cases
 
-import com.example.two_zero_four_eight.model.GameState
-import com.example.two_zero_four_eight.model.GameStatus.*
+import com.example.two_zero_four_eight.data.model.GameState
+import com.example.two_zero_four_eight.data.model.GameStatus.*
 
 class HasWonTheGameUseCase {
 

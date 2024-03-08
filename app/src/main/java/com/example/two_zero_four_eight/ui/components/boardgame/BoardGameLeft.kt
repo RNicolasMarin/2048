@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.two_zero_four_eight.model.GameState
+import com.example.two_zero_four_eight.data.model.GameState
 import com.example.two_zero_four_eight.ui.screens.UiSectionSizesLandscape
 
 @Composable

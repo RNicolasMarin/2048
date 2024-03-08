@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import com.example.two_zero_four_eight.R
-import com.example.two_zero_four_eight.model.GameStatus
-import com.example.two_zero_four_eight.model.GameStatus.*
+import com.example.two_zero_four_eight.data.model.GameStatus
+import com.example.two_zero_four_eight.data.model.GameStatus.*
 import com.example.two_zero_four_eight.ui.theme.Black
 
 @Composable

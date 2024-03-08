@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.two_zero_four_eight.R
-import com.example.two_zero_four_eight.model.CurrentRecordData
+import com.example.two_zero_four_eight.data.model.CurrentRecordData
 import com.example.two_zero_four_eight.ui.theme.Black
 import com.example.two_zero_four_eight.ui.theme.Green3
 import com.example.two_zero_four_eight.ui.theme.White

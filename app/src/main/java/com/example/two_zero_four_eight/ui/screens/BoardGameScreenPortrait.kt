@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.two_zero_four_eight.model.GameState
+import com.example.two_zero_four_eight.data.model.GameState
 import com.example.two_zero_four_eight.ui.components.boardgame.BoardGame
 import com.example.two_zero_four_eight.ui.components.boardgame.BoardGameBottom
 import com.example.two_zero_four_eight.ui.components.boardgame.BoardGameBottomButtons

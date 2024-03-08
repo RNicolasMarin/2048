@@ -1,9 +1,8 @@
 package com.example.two_zero_four_eight.ui
 
 import androidx.lifecycle.ViewModel
-import com.example.two_zero_four_eight.model.CurrentRecordData
-import com.example.two_zero_four_eight.model.GameState
-import com.example.two_zero_four_eight.model.GameStatus.*
+import androidx.lifecycle.viewModelScope
+import com.example.two_zero_four_eight.data.model.GameState
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
 import com.example.two_zero_four_eight.use_cases.CreateBoardGameUseCase
@@ -12,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 const val DEFAULT_NUMBER_TO_WIN = 16
@@ -30,14 +30,15 @@ class TwoZeroFourEightViewModel @Inject constructor(
     }
 
     ////check where to get the size value from later on
-    fun startNewGame() {
+    fun startNewGame() = viewModelScope.launch  {
+        val newBoard = boardGameUseCases.createBoardGame(3)
         _gameState.update {
             it.copy(
-                board = boardGameUseCases.createBoardGame(3),
-                gameStatus = PLAYING,
-                numberToWin = DEFAULT_NUMBER_TO_WIN,
-                numberCurrentRecord = CurrentRecordData(),
-                scoreCurrentRecord = CurrentRecordData()
+                board = newBoard.board,
+                gameStatus = newBoard.gameStatus,
+                numberToWin = newBoard.numberToWin,
+                numberCurrentRecord = newBoard.numberCurrentRecord,
+                scoreCurrentRecord = newBoard.scoreCurrentRecord
             )
         }
     }
