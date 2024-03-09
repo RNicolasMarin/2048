@@ -43,7 +43,12 @@ class CombineAndMoveNumbersUseCase {
         } else {
             gameState.apply {
                 board = boardGameAfterMove
-                scoreCurrentRecord.currentValue = score
+                with(scoreCurrentRecord) {
+                    currentValue = score
+                    if (score > recordValue) {
+                        recordValue = score
+                    }
+                }
             }
         }
     }

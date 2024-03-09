@@ -7,8 +7,14 @@ class UpdateCurrentRecordsUseCase {
     fun updateValues(gameState: GameState): GameState = with(gameState) {
         val newNumber = board.flatten().max()
 
-        if (newNumber > numberCurrentRecord.currentValue) {
-            numberCurrentRecord.currentValue = newNumber
+        with(numberCurrentRecord) {
+            if (newNumber > currentValue) {
+                currentValue = newNumber
+            }
+
+            if (newNumber > recordValue) {
+                recordValue = newNumber
+            }
         }
 
         return this
