@@ -27,7 +27,7 @@ class MoveNumbersUseCase @Inject constructor(
      *
      * 5) Updates the current higher number
      * **/
-    fun moveNumbers(
+    suspend fun moveNumbers(
         movementDirection: MovementDirection,
         gameState: GameState
     ): GameState {

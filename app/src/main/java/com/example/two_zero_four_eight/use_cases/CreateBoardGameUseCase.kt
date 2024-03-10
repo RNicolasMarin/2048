@@ -30,15 +30,15 @@ class CreateBoardGameUseCase @Inject constructor(
         boardGame = useCase.addNumber(boardGame)
         boardGame = useCase.addNumber(boardGame)
 
-        val individualBestValues = repository.getIndividualBestValues(size) ?:
-            IndividualBestValues(score = 0, number = 0)
+        val individualBestValues = repository.getIndividualBestValues(size) ?: IndividualBestValues()
 
         return GameState(
             board = boardGame,
             gameStatus = PLAYING,
             numberToWin = DEFAULT_NUMBER_TO_WIN,
             numberCurrentRecord = CurrentRecordData(recordValue = individualBestValues.number),
-            scoreCurrentRecord = CurrentRecordData(recordValue = individualBestValues.score)
+            scoreCurrentRecord = CurrentRecordData(recordValue = individualBestValues.score),
+            originalBestValues = individualBestValues
         )
     }
 }

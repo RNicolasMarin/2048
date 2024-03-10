@@ -38,13 +38,14 @@ class TwoZeroFourEightViewModel @Inject constructor(
                 gameStatus = newBoard.gameStatus,
                 numberToWin = newBoard.numberToWin,
                 numberCurrentRecord = newBoard.numberCurrentRecord,
-                scoreCurrentRecord = newBoard.scoreCurrentRecord
+                scoreCurrentRecord = newBoard.scoreCurrentRecord,
+                originalBestValues = newBoard.originalBestValues
             )
         }
     }
 
-    fun moveNumbers(direction: MovementDirection)  {
-        if (direction == NONE) return
+    fun moveNumbers(direction: MovementDirection) = viewModelScope.launch {
+        if (direction == NONE) return@launch
 
         val newBoard = moveNumbersUseCase.moveNumbers(direction, _gameState.value)
 
@@ -54,7 +55,8 @@ class TwoZeroFourEightViewModel @Inject constructor(
                 gameStatus = newBoard.gameStatus,
                 numberToWin = newBoard.numberToWin,
                 numberCurrentRecord = newBoard.numberCurrentRecord,
-                scoreCurrentRecord = newBoard.scoreCurrentRecord
+                scoreCurrentRecord = newBoard.scoreCurrentRecord,
+                originalBestValues = newBoard.originalBestValues
             )
         }
     }

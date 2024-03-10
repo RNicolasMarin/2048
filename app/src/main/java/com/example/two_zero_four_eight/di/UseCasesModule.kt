@@ -57,8 +57,10 @@ object UseCasesModule {
         HasWonTheGameUseCase()
 
     @Provides
-    fun provideUpdateCurrentRecordsUseCase() =
-        UpdateCurrentRecordsUseCase()
+    fun provideUpdateCurrentRecordsUseCase(
+        repository: RecordRepository
+    ) =
+        UpdateCurrentRecordsUseCase(repository)
 
     @Provides
     fun provideMoveNumbersUseCase(
