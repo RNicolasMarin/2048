@@ -97,4 +97,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
+    //Test
+    testImplementation("io.mockk:mockk:1.12.5")
+
 }
