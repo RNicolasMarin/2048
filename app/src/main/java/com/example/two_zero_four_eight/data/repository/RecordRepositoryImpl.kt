@@ -12,7 +12,16 @@ class RecordRepositoryImpl(
         return dao.getIndividualBestValues(boardSize)
     }
 
-    override suspend fun insertRecord(record: RecordValues) {
-        return dao.insertRecord(record)
+    override suspend fun getRecordsForBoard(boardSize: Int): List<RecordValues> {
+        return dao.getRecordsForBoard(boardSize)
     }
+
+    override suspend fun insertRecord(record: RecordValues) {
+        dao.insertRecord(record)
+    }
+
+    override suspend fun updateRecord(record: RecordValues) {
+        dao.updateRecord(record)
+    }
+
 }

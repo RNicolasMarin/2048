@@ -7,5 +7,10 @@ interface RecordRepository {
 
     suspend fun getIndividualBestValues(boardSize: Int): IndividualBestValues?
 
+    suspend fun getRecordsForBoard(boardSize: Int): List<RecordValues>
+
     suspend fun insertRecord(record: RecordValues)
+
+    suspend fun updateRecord(record: RecordValues)
+
 }

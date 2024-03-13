@@ -8,7 +8,8 @@ import com.example.two_zero_four_eight.data.repository.RecordRepository
 import javax.inject.Inject
 
 class UpdateCurrentRecordsUseCase @Inject constructor(
-    private val repository: RecordRepository
+    private val repository: RecordRepository,
+    private val maxSavedRecords: Int = 2
 ) {
 
     private lateinit var gameState: GameState
@@ -30,11 +31,42 @@ class UpdateCurrentRecordsUseCase @Inject constructor(
         if (!createNewRecord) return
 
         val newRecordValues = RecordValues(
-            score = scoreCurrentRecord.recordValue,
-            number = numberCurrentRecord.recordValue,
+            score = scoreCurrentRecord.currentValue,
+            number = numberCurrentRecord.currentValue,
             boardSize = gameState.board.size
         )
-        repository.insertRecord(newRecordValues)
+
+        //get the records for that size
+        val records = repository.getRecordsForBoard(board.size)
+
+        //if there's less than 10 records (0-9 inclusive) add the new record
+        if (records.size < maxSavedRecords) {
+            repository.insertRecord(newRecordValues)
+        } else {
+            //check a record that is not needed anymore, use its id on the new record and updated on the db
+            val id = getIrrelevantRecord(records).id
+            newRecordValues.id = id
+            repository.updateRecord(newRecordValues)
+        }
+    }
+
+    private fun getIrrelevantRecord(records: List<RecordValues>): RecordValues {
+        val lowestNumber = records.minBy { it.number }.number
+
+        for (recordLowestScore in records) {
+            //if the record with lowest score also has the lowest number overwrite it
+            if (recordLowestScore.number == lowestNumber) {
+                return recordLowestScore
+            }
+
+            //if there's any record with the same number or higher overwrite the record with lowest score
+            val numbersEqualOrHigherToLowestNumber = records.count { it.number >= recordLowestScore.number }
+            if (numbersEqualOrHigherToLowestNumber > 1) {
+                return recordLowestScore
+            }
+        }
+
+        return records.first()
     }
 
     private fun shouldCreateNewRecord(

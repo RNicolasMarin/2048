@@ -1036,8 +1036,9 @@ class MoveNumbersUseCaseTest {
     16-64-32-2        16-64-32-2*/
     @Test
     fun `LEFT save new record for number`() = runBlocking {
-        val record = RecordValues(score = 300, number = 128, boardSize = 4)
+        val record = RecordValues(score = 138, number = 128, boardSize = 4)
         coEvery { repository.insertRecord(record) } answers { }
+        coEvery { repository.getRecordsForBoard(4) } answers { emptyList() }
 
         val boardGame = mutableListOf(
             mutableListOf( 64, 64,  8, 32),
@@ -1076,6 +1077,7 @@ class MoveNumbersUseCaseTest {
 
         verify {
             runBlocking {
+                repository.getRecordsForBoard(4)
                 repository.insertRecord(record)
             }
         }
@@ -1176,8 +1178,9 @@ class MoveNumbersUseCaseTest {
     16-64-32-2        16-64-32-2*/
     @Test
     fun `LEFT save new record for score`() = runBlocking {
-        val record = RecordValues(score = 328, number = 256, boardSize = 4)
+        val record = RecordValues(score = 328, number = 128, boardSize = 4)
         coEvery { repository.insertRecord(record) } answers { }
+        coEvery { repository.getRecordsForBoard(4) } answers { emptyList() }
 
         val boardGame = mutableListOf(
             mutableListOf( 64, 64,  8, 32),
@@ -1217,7 +1220,255 @@ class MoveNumbersUseCaseTest {
 
         verify {
             runBlocking {
+                repository.getRecordsForBoard(4)
                 repository.insertRecord(record)
+            }
+        }
+    }
+
+
+
+
+    /*LEFT erase record with lowest score and number
+    64-64- 8-32      128- 8-32-x
+    16-32-16-8        16-32-16-8
+    32-16-64-4        32-16-64-4
+    16-64-32-2        16-64-32-2*/
+    @Test
+    fun `LEFT erase record with lowest score and number`() = runBlocking {
+        val record = RecordValues(id = 3, score = 328, number = 128, boardSize = 4)
+        coEvery { repository.getRecordsForBoard(4) } answers {
+            listOf(
+                RecordValues(id = 3, score = 150, number = 4, boardSize = 4),
+                RecordValues(id = 1, score = 200, number = 32, boardSize = 4),
+                RecordValues(id = 2, score = 300, number = 16, boardSize = 4),
+            )
+        }
+        coEvery { repository.updateRecord(record) } answers { }
+
+        val boardGame = mutableListOf(
+            mutableListOf( 64, 64,  8, 32),
+            mutableListOf( 16, 32, 16,  8),
+            mutableListOf( 32, 16, 64,  4),
+            mutableListOf( 16, 64, 32,  2),
+        )
+        gameState.apply {
+            board = boardGame
+            numberCurrentRecord = CurrentRecordData(64, 256)
+            scoreCurrentRecord = CurrentRecordData(200, 300)
+            originalBestValues = IndividualBestValues(number = 256, score = 300)
+        }
+
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
+        assertThat(actual.gameStatus).isEqualTo(GAME_OVER)
+        assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
+
+        assertThat(actual.numberCurrentRecord).isEqualTo(CurrentRecordData(128, 256))
+        assertThat(actual.scoreCurrentRecord).isEqualTo(CurrentRecordData(328, 328))
+        assertThat(actual.originalBestValues).isEqualTo(IndividualBestValues(RECORD_SCORE, 256))
+
+        val boardResult = actual.board
+        assertThat(boardResult.size).isEqualTo(4)
+
+        assertThat(boardResult[0][0]).isEqualTo(128)
+        assertThat(boardResult[0][1]).isEqualTo(8)
+        assertThat(boardResult[0][2]).isEqualTo(32)
+        assertThat(boardResult[0][3]).isNotEqualTo(DEF)
+
+        assertThat(boardResult[1]).isEqualTo(mutableListOf( 16, 32, 16,  8))
+        assertThat(boardResult[2]).isEqualTo(mutableListOf( 32, 16, 64,  4))
+        assertThat(boardResult[3]).isEqualTo(mutableListOf( 16, 64, 32,  2))
+
+        val numbers = boardResult.flatten().count { it == DEF }
+        assertThat(numbers).isEqualTo(0)
+
+        verify {
+            runBlocking {
+                repository.getRecordsForBoard(4)
+                repository.updateRecord(record)
+            }
+        }
+    }
+
+    /*LEFT erase record with lowest score and non unique high number 1
+    64-64- 8-32      128- 8-32-x
+    16-32-16-8        16-32-16-8
+    32-16-64-4        32-16-64-4
+    16-64-32-2        16-64-32-2*/
+    @Test
+    fun `LEFT erase record with lowest score and non unique high number 1`() = runBlocking {
+        val record = RecordValues(id = 3, score = 328, number = 128, boardSize = 4)
+        coEvery { repository.getRecordsForBoard(4) } answers {
+            listOf(
+                RecordValues(id = 3, score = 150, number = 32, boardSize = 4),
+                RecordValues(id = 1, score = 200, number = 32, boardSize = 4),
+                RecordValues(id = 2, score = 300, number = 16, boardSize = 4),
+            )
+        }
+        coEvery { repository.updateRecord(record) } answers { }
+
+        val boardGame = mutableListOf(
+            mutableListOf( 64, 64,  8, 32),
+            mutableListOf( 16, 32, 16,  8),
+            mutableListOf( 32, 16, 64,  4),
+            mutableListOf( 16, 64, 32,  2),
+        )
+        gameState.apply {
+            board = boardGame
+            numberCurrentRecord = CurrentRecordData(64, 256)
+            scoreCurrentRecord = CurrentRecordData(200, 300)
+            originalBestValues = IndividualBestValues(number = 256, score = 300)
+        }
+
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
+        assertThat(actual.gameStatus).isEqualTo(GAME_OVER)
+        assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
+
+        assertThat(actual.numberCurrentRecord).isEqualTo(CurrentRecordData(128, 256))
+        assertThat(actual.scoreCurrentRecord).isEqualTo(CurrentRecordData(328, 328))
+        assertThat(actual.originalBestValues).isEqualTo(IndividualBestValues(RECORD_SCORE, 256))
+
+        val boardResult = actual.board
+        assertThat(boardResult.size).isEqualTo(4)
+
+        assertThat(boardResult[0][0]).isEqualTo(128)
+        assertThat(boardResult[0][1]).isEqualTo(8)
+        assertThat(boardResult[0][2]).isEqualTo(32)
+        assertThat(boardResult[0][3]).isNotEqualTo(DEF)
+
+        assertThat(boardResult[1]).isEqualTo(mutableListOf( 16, 32, 16,  8))
+        assertThat(boardResult[2]).isEqualTo(mutableListOf( 32, 16, 64,  4))
+        assertThat(boardResult[3]).isEqualTo(mutableListOf( 16, 64, 32,  2))
+
+        val numbers = boardResult.flatten().count { it == DEF }
+        assertThat(numbers).isEqualTo(0)
+
+        verify {
+            runBlocking {
+                repository.getRecordsForBoard(4)
+                repository.updateRecord(record)
+            }
+        }
+    }
+
+    /*LEFT erase record with lowest score and non unique high number 2
+    64-64- 8-32      128- 8-32-x
+    16-32-16-8        16-32-16-8
+    32-16-64-4        32-16-64-4
+    16-64-32-2        16-64-32-2*/
+    @Test
+    fun `LEFT erase record with lowest score and non unique high number 2`() = runBlocking {
+        val record = RecordValues(id = 3, score = 328, number = 128, boardSize = 4)
+        coEvery { repository.getRecordsForBoard(4) } answers {
+            listOf(
+                RecordValues(id = 3, score = 150, number = 32, boardSize = 4),
+                RecordValues(id = 1, score = 200, number = 64, boardSize = 4),
+                RecordValues(id = 2, score = 300, number = 32, boardSize = 4),
+            )
+        }
+        coEvery { repository.updateRecord(record) } answers { }
+
+        val boardGame = mutableListOf(
+            mutableListOf( 64, 64,  8, 32),
+            mutableListOf( 16, 32, 16,  8),
+            mutableListOf( 32, 16, 64,  4),
+            mutableListOf( 16, 64, 32,  2),
+        )
+        gameState.apply {
+            board = boardGame
+            numberCurrentRecord = CurrentRecordData(64, 256)
+            scoreCurrentRecord = CurrentRecordData(200, 300)
+            originalBestValues = IndividualBestValues(number = 256, score = 300)
+        }
+
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
+        assertThat(actual.gameStatus).isEqualTo(GAME_OVER)
+        assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
+
+        assertThat(actual.numberCurrentRecord).isEqualTo(CurrentRecordData(128, 256))
+        assertThat(actual.scoreCurrentRecord).isEqualTo(CurrentRecordData(328, 328))
+        assertThat(actual.originalBestValues).isEqualTo(IndividualBestValues(RECORD_SCORE, 256))
+
+        val boardResult = actual.board
+        assertThat(boardResult.size).isEqualTo(4)
+
+        assertThat(boardResult[0][0]).isEqualTo(128)
+        assertThat(boardResult[0][1]).isEqualTo(8)
+        assertThat(boardResult[0][2]).isEqualTo(32)
+        assertThat(boardResult[0][3]).isNotEqualTo(DEF)
+
+        assertThat(boardResult[1]).isEqualTo(mutableListOf( 16, 32, 16,  8))
+        assertThat(boardResult[2]).isEqualTo(mutableListOf( 32, 16, 64,  4))
+        assertThat(boardResult[3]).isEqualTo(mutableListOf( 16, 64, 32,  2))
+
+        val numbers = boardResult.flatten().count { it == DEF }
+        assertThat(numbers).isEqualTo(0)
+
+        verify {
+            runBlocking {
+                repository.getRecordsForBoard(4)
+                repository.updateRecord(record)
+            }
+        }
+    }
+
+    /*LEFT erase record with non highest number and non lowest score
+    64-64- 8-32      128- 8-32-x
+    16-32-16-8        16-32-16-8
+    32-16-64-4        32-16-64-4
+    16-64-32-2        16-64-32-2*/
+    @Test
+    fun `LEFT erase record with non highest number and non lowest score`() = runBlocking {
+        val record = RecordValues(id = 1, score = 328, number = 128, boardSize = 4)
+        coEvery { repository.getRecordsForBoard(4) } answers {
+            listOf(
+                RecordValues(id = 3, score = 150, number = 64, boardSize = 4),
+                RecordValues(id = 1, score = 200, number = 32, boardSize = 4),
+                RecordValues(id = 2, score = 300, number = 16, boardSize = 4),
+            )
+        }
+        coEvery { repository.updateRecord(record) } answers { }
+
+        val boardGame = mutableListOf(
+            mutableListOf( 64, 64,  8, 32),
+            mutableListOf( 16, 32, 16,  8),
+            mutableListOf( 32, 16, 64,  4),
+            mutableListOf( 16, 64, 32,  2),
+        )
+        gameState.apply {
+            board = boardGame
+            numberCurrentRecord = CurrentRecordData(64, 256)
+            scoreCurrentRecord = CurrentRecordData(200, 300)
+            originalBestValues = IndividualBestValues(number = 256, score = 300)
+        }
+
+        val actual = moveNumbersUseCase.moveNumbers(LEFT, gameState)
+        assertThat(actual.gameStatus).isEqualTo(GAME_OVER)
+        assertThat(actual.numberToWin).isEqualTo(NEXT_HIGH_NUMBER)
+
+        assertThat(actual.numberCurrentRecord).isEqualTo(CurrentRecordData(128, 256))
+        assertThat(actual.scoreCurrentRecord).isEqualTo(CurrentRecordData(328, 328))
+        assertThat(actual.originalBestValues).isEqualTo(IndividualBestValues(RECORD_SCORE, 256))
+
+        val boardResult = actual.board
+        assertThat(boardResult.size).isEqualTo(4)
+
+        assertThat(boardResult[0][0]).isEqualTo(128)
+        assertThat(boardResult[0][1]).isEqualTo(8)
+        assertThat(boardResult[0][2]).isEqualTo(32)
+        assertThat(boardResult[0][3]).isNotEqualTo(DEF)
+
+        assertThat(boardResult[1]).isEqualTo(mutableListOf( 16, 32, 16,  8))
+        assertThat(boardResult[2]).isEqualTo(mutableListOf( 32, 16, 64,  4))
+        assertThat(boardResult[3]).isEqualTo(mutableListOf( 16, 64, 32,  2))
+
+        val numbers = boardResult.flatten().count { it == DEF }
+        assertThat(numbers).isEqualTo(0)
+
+        verify {
+            runBlocking {
+                repository.getRecordsForBoard(4)
+                repository.updateRecord(record)
             }
         }
     }

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "records")
 data class RecordValues(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    var id: Int = 0,
     val score: Int,
     val number: Int,
     val boardSize: Int

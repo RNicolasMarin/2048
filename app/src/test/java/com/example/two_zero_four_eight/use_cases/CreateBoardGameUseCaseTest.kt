@@ -30,6 +30,7 @@ class CreateBoardGameUseCaseTest {
         coEvery { repository.getIndividualBestValues(3) } answers {
             individualBestValues
         }
+
         val state = moveNumbersUseCase.createBoardGame(3)
         val boardResult = state.board.flatten()
 
@@ -61,6 +62,7 @@ class CreateBoardGameUseCaseTest {
         coEvery { repository.getIndividualBestValues(3) } answers {
             null
         }
+
         val state = moveNumbersUseCase.createBoardGame(3)
         val boardResult = state.board.flatten()
 
