@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.two_zero_four_eight.data.model.GameState
+import com.example.two_zero_four_eight.data.model.SingleGameState
 import com.example.two_zero_four_eight.ui.components.boardgame.BoardGame
 import com.example.two_zero_four_eight.ui.components.boardgame.BoardGameBottomButtons
 import com.example.two_zero_four_eight.ui.components.boardgame.BoardGameLeft
@@ -24,11 +24,12 @@ import com.example.two_zero_four_eight.ui.utils.MovementDirection
 
 @Composable
 fun BoardGameScreenLandscape(
-    uiState: GameState,
+    uiState: SingleGameState,
     currentDirection: MovementDirection,
     showAllSections: Boolean,
     setCurrentDirection: (MovementDirection) -> Unit,
     moveNumbers: (MovementDirection) -> Unit,
+    previousBoard: () -> Unit,
     startNewGame: () -> Unit
 ) {
     val uiSectionSizes = getUiSectionSizesLandscape(LocalConfiguration.current, MaterialTheme.dimens.outerPadding, showAllSections)
@@ -69,6 +70,7 @@ fun BoardGameScreenLandscape(
                     boardGameHeight = 0.dp,
                     singlePartHeight = uiSectionSizes.singlePartHeight,
                     modifier = Modifier.width(uiSectionSizes.singlePartWidth),
+                    previousBoard = { previousBoard() },
                     startNewGame = { startNewGame() }
                 )
             }

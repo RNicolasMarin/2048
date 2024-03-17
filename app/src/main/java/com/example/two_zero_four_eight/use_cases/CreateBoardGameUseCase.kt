@@ -4,6 +4,7 @@ import com.example.two_zero_four_eight.data.model.CurrentRecordData
 import com.example.two_zero_four_eight.data.model.GameState
 import com.example.two_zero_four_eight.data.model.GameStatus.*
 import com.example.two_zero_four_eight.data.model.IndividualBestValues
+import com.example.two_zero_four_eight.data.model.SingleGameState
 import com.example.two_zero_four_eight.data.repository.RecordRepository
 import com.example.two_zero_four_eight.ui.DEFAULT_NUMBER_TO_WIN
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class CreateBoardGameUseCase @Inject constructor(
      *
      * Then adds the first and second number to the boardGame and returns it.
      * **/
-    suspend fun createBoardGame(size: Int): GameState {
+    suspend fun createBoardGame(previousState: SingleGameState, size: Int): GameState {
         var boardGame = MutableList(size) { //rows
             MutableList(size) { //cells
                 DEFAULT_VALUE
@@ -33,11 +34,14 @@ class CreateBoardGameUseCase @Inject constructor(
         val individualBestValues = repository.getIndividualBestValues(size) ?: IndividualBestValues()
 
         return GameState(
-            board = boardGame,
-            gameStatus = PLAYING,
-            numberToWin = DEFAULT_NUMBER_TO_WIN,
-            numberCurrentRecord = CurrentRecordData(recordValue = individualBestValues.number),
-            scoreCurrentRecord = CurrentRecordData(recordValue = individualBestValues.score),
+            previousState = if (previousState.board.isEmpty()) null else previousState,
+            currentState = SingleGameState(
+                board = boardGame,
+                gameStatus = PLAYING,
+                numberToWin = DEFAULT_NUMBER_TO_WIN,
+                numberCurrentRecord = CurrentRecordData(recordValue = individualBestValues.number),
+                scoreCurrentRecord = CurrentRecordData(recordValue = individualBestValues.score),
+            ),
             originalBestValues = individualBestValues
         )
     }

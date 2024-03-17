@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,7 @@ fun IconButton(
     onClick: () -> Unit,
     size: Dp,
     contentDescription: String,
+    color: Color,
     modifier: Modifier = Modifier,
 ) {
 
@@ -50,7 +52,7 @@ fun IconButton(
         Icon(
             painter = painterResource(R.drawable.start_again),
             contentDescription = contentDescription,
-            tint = White,
+            tint = color,//White,
             modifier = Modifier.fillMaxSize()
         )
     }

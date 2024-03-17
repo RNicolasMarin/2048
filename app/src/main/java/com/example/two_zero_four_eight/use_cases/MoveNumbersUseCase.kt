@@ -31,27 +31,28 @@ class MoveNumbersUseCase @Inject constructor(
         movementDirection: MovementDirection,
         gameState: GameState
     ): GameState {
+        val previous = gameState.currentState.clone()
+
         //1) Move and Combine
         //If it's null there's no change on the boardGame or in isGameOver and return the original values
-        var result = useCase1.combineAndMove(movementDirection, gameState) ?:
+        var current = useCase1.combineAndMove(movementDirection, gameState) ?:
             return gameState
 
-        gameState.apply {
-            board = result.board
-            scoreCurrentRecord = result.scoreCurrentRecord
-        }
-
         //2) if there's empty cells add number
-        gameState.board = useCase2.addNumber(gameState.board)
+        current.board = useCase2.addNumber(current.board)
 
         //3) Check if there's any possible move
-        result = useCase3.checkMovesToContinue(gameState)
+        current = useCase3.checkMovesToContinue(current)
 
         //4) Checks if it reached the nextHighNumber
-        result = useCase4.checkIfHasWonTheGame(result)
+        current = useCase4.checkIfHasWonTheGame(current)
 
         //5) Update current number
-        return useCase5.updateValues(result)
+        gameState.apply {
+            currentState = current
+            previousState = previous
+        }
+        return useCase5.updateValues(gameState)
     }
 
 }

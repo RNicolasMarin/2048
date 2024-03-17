@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.two_zero_four_eight.data.model.GameState
+import com.example.two_zero_four_eight.data.model.SingleGameState
 import com.example.two_zero_four_eight.ui.components.boardgame.BoardGame
 import com.example.two_zero_four_eight.ui.components.boardgame.BoardGameBottom
 import com.example.two_zero_four_eight.ui.components.boardgame.BoardGameBottomButtons
@@ -26,11 +26,12 @@ import com.example.two_zero_four_eight.ui.utils.MovementDirection
 
 @Composable
 fun BoardGameScreenPortrait(
-    uiState: GameState,
+    uiState: SingleGameState,
     currentDirection: MovementDirection,
     showAllSections: Boolean,
     setCurrentDirection: (MovementDirection) -> Unit,
     moveNumbers: (MovementDirection) -> Unit,
+    previousBoard: () -> Unit,
     startNewGame: () -> Unit
 ) {
     val uiSectionSizes = getUiSectionSizesPortrait(LocalConfiguration.current, MaterialTheme.dimens.outerPadding, showAllSections)
@@ -78,6 +79,7 @@ fun BoardGameScreenPortrait(
                     boardGameHeight = uiSectionSizes.boardGameHeight,
                     singlePartHeight = uiSectionSizes.singlePartHeight,
                     modifier = Modifier.fillMaxWidth(),
+                    previousBoard = { previousBoard() },
                     startNewGame = { startNewGame() }
                 )
             }

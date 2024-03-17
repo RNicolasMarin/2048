@@ -1,6 +1,7 @@
 package com.example.two_zero_four_eight.use_cases
 
 import com.example.two_zero_four_eight.data.model.GameState
+import com.example.two_zero_four_eight.data.model.SingleGameState
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.ui.utils.MovementDirection.*
 
@@ -19,7 +20,7 @@ class CombineAndMoveNumbersUseCase {
     fun combineAndMove(
         movementDirection: MovementDirection,
         gameState: GameState
-    ): GameState? = with(gameState) {
+    ): SingleGameState? = with(gameState.currentState) {
         boardSize = board.size
         boardGame = board.copy()
         score = scoreCurrentRecord.currentValue
@@ -41,7 +42,7 @@ class CombineAndMoveNumbersUseCase {
         return if (board.isTheSameBoard(boardGameAfterMove)) {
             null
         } else {
-            gameState.apply {
+            gameState.currentState.apply {
                 board = boardGameAfterMove
                 with(scoreCurrentRecord) {
                     currentValue = score

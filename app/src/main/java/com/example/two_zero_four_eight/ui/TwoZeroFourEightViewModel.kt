@@ -31,14 +31,12 @@ class TwoZeroFourEightViewModel @Inject constructor(
 
     ////check where to get the size value from later on
     fun startNewGame() = viewModelScope.launch  {
-        val newBoard = boardGameUseCases.createBoardGame(3)
+        val current = _gameState.value.currentState
+        val newBoard = boardGameUseCases.createBoardGame(current, 3)
         _gameState.update {
             it.copy(
-                board = newBoard.board,
-                gameStatus = newBoard.gameStatus,
-                numberToWin = newBoard.numberToWin,
-                numberCurrentRecord = newBoard.numberCurrentRecord,
-                scoreCurrentRecord = newBoard.scoreCurrentRecord,
+                currentState = newBoard.currentState,
+                previousState = newBoard.previousState,
                 originalBestValues = newBoard.originalBestValues
             )
         }
@@ -51,12 +49,20 @@ class TwoZeroFourEightViewModel @Inject constructor(
 
         _gameState.update {
             it.copy(
-                board = newBoard.board,
-                gameStatus = newBoard.gameStatus,
-                numberToWin = newBoard.numberToWin,
-                numberCurrentRecord = newBoard.numberCurrentRecord,
-                scoreCurrentRecord = newBoard.scoreCurrentRecord,
+                currentState = newBoard.currentState,
+                previousState = newBoard.previousState,
                 originalBestValues = newBoard.originalBestValues
+            )
+        }
+    }
+
+    fun previousBoard() = viewModelScope.launch {
+        val previous = _gameState.value.previousState ?: return@launch
+
+        _gameState.update {
+            it.copy(
+                currentState = previous.copy(),
+                previousState = null,
             )
         }
     }

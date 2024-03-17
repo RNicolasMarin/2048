@@ -12,6 +12,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import com.example.two_zero_four_eight.R
 import com.example.two_zero_four_eight.ui.components.IconButton
+import com.example.two_zero_four_eight.ui.theme.Black
+import com.example.two_zero_four_eight.ui.theme.White
 import com.example.two_zero_four_eight.ui.theme.dimens
 
 @Composable
@@ -20,6 +22,7 @@ fun BoardGameBottomButtons(
     boardGameHeight: Dp,
     singlePartHeight: Dp,
     startNewGame: () -> Unit,
+    previousBoard: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val innerPadding = MaterialTheme.dimens.innerPadding
@@ -31,9 +34,10 @@ fun BoardGameBottomButtons(
     ) {
         IconButton(
             size = singlePartHeight - innerPadding,
+            color = Black,
             contentDescription = stringResource(id = R.string.start_again_button_description),
             onClick = {
-                startNewGame()
+                previousBoard()
             }
         )
 
@@ -41,6 +45,7 @@ fun BoardGameBottomButtons(
 
         IconButton(
             size = singlePartHeight - innerPadding,
+            color = White,
             contentDescription = stringResource(id = R.string.start_again_button_description),
             onClick = {
                 startNewGame()

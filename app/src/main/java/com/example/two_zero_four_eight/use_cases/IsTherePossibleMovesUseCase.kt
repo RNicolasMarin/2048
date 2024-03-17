@@ -1,7 +1,7 @@
 package com.example.two_zero_four_eight.use_cases
 
-import com.example.two_zero_four_eight.data.model.GameState
 import com.example.two_zero_four_eight.data.model.GameStatus.*
+import com.example.two_zero_four_eight.data.model.SingleGameState
 
 class IsTherePossibleMovesUseCase {
 
@@ -14,8 +14,8 @@ class IsTherePossibleMovesUseCase {
      * 3) Otherwise is game over
      * **/
     fun checkMovesToContinue(
-        gameState: GameState
-    ): GameState = with(gameState) {
+        gameState: SingleGameState
+    ): SingleGameState = with(gameState) {
         gameStatus = PLAYING
         val boardSize = board.size
 

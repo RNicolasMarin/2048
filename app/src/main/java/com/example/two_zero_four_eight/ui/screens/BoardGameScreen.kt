@@ -18,15 +18,17 @@ fun BoardGameScreen(viewModel: TwoZeroFourEightViewModel, uiState: GameState) {
     val showAllSections = !MaterialTheme.isBothCompact
 
     if (MaterialTheme.isPortrait) {
-        BoardGameScreenPortrait(uiState, currentDirection, showAllSections,
+        BoardGameScreenPortrait(uiState.currentState, currentDirection, showAllSections,
             setCurrentDirection = { currentDirection = it },
             moveNumbers = { viewModel.moveNumbers(it) },
+            previousBoard = { viewModel.previousBoard() },
             startNewGame = { viewModel.startNewGame() }
         )
     } else {
-        BoardGameScreenLandscape(uiState, currentDirection, showAllSections,
+        BoardGameScreenLandscape(uiState.currentState, currentDirection, showAllSections,
             setCurrentDirection = { currentDirection = it },
             moveNumbers = { viewModel.moveNumbers(it) },
+            previousBoard = { viewModel.previousBoard() },
             startNewGame = { viewModel.startNewGame() }
         )
     }

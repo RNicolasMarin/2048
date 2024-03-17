@@ -19,21 +19,21 @@ class UpdateCurrentRecordsUseCase @Inject constructor(
 
         updateNumber()
 
-        val createNewRecord = shouldCreateNewRecord(numberCurrentRecord, originalBestValues.number)
-                || shouldCreateNewRecord(scoreCurrentRecord, originalBestValues.score)
+        val createNewRecord = shouldCreateNewRecord(currentState.numberCurrentRecord, originalBestValues.number)
+                || shouldCreateNewRecord(currentState.scoreCurrentRecord, originalBestValues.score)
 
         saveNewRecordIfNeeded(createNewRecord)
 
         return this
     }
 
-    private suspend fun saveNewRecordIfNeeded(createNewRecord: Boolean) = with(gameState) {
+    private suspend fun saveNewRecordIfNeeded(createNewRecord: Boolean) = with(gameState.currentState) {
         if (!createNewRecord) return
 
         val newRecordValues = RecordValues(
             score = scoreCurrentRecord.currentValue,
             number = numberCurrentRecord.currentValue,
-            boardSize = gameState.board.size
+            boardSize = board.size
         )
 
         //get the records for that size
@@ -72,14 +72,14 @@ class UpdateCurrentRecordsUseCase @Inject constructor(
     private fun shouldCreateNewRecord(
         currentRecord: CurrentRecordData,
         originalValue: Int
-    ): Boolean = with(gameState) {
+    ): Boolean = with(gameState.currentState) {
         if (gameStatus != GAME_OVER) return false
 
         return currentRecord.recordValue > originalValue
     }
 
-    private fun updateNumber() = with(gameState.numberCurrentRecord) {
-        val newNumber = gameState.board.flatten().max()
+    private fun updateNumber() = with(gameState.currentState.numberCurrentRecord) {
+        val newNumber = gameState.currentState.board.flatten().max()
 
         if (newNumber > currentValue) {
             currentValue = newNumber
