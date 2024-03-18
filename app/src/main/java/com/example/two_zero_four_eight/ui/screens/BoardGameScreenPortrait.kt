@@ -29,6 +29,7 @@ fun BoardGameScreenPortrait(
     uiState: SingleGameState,
     currentDirection: MovementDirection,
     showAllSections: Boolean,
+    isLoading: Boolean,
     setCurrentDirection: (MovementDirection) -> Unit,
     moveNumbers: (MovementDirection) -> Unit,
     previousBoard: () -> Unit,
@@ -48,6 +49,7 @@ fun BoardGameScreenPortrait(
                     singlePartHeight = uiSectionSizes.singlePartHeight,
                     dataNumber = uiState.numberCurrentRecord,
                     dataScore = uiState.scoreCurrentRecord,
+                    isLoading = isLoading,
                     modifier = Modifier.height(uiSectionSizes.topHeight)
                 )
             }
@@ -56,6 +58,7 @@ fun BoardGameScreenPortrait(
                 tableData = uiState.board,
                 currentDirection = currentDirection,
                 boardGameSize = uiSectionSizes.boardGameSize,
+                isLoading = isLoading,
                 modifier = Modifier.height(uiSectionSizes.boardGameHeight)
             )
 

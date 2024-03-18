@@ -27,6 +27,7 @@ fun BoardGameScreenLandscape(
     uiState: SingleGameState,
     currentDirection: MovementDirection,
     showAllSections: Boolean,
+    isLoading: Boolean,
     setCurrentDirection: (MovementDirection) -> Unit,
     moveNumbers: (MovementDirection) -> Unit,
     previousBoard: () -> Unit,
@@ -44,6 +45,7 @@ fun BoardGameScreenLandscape(
                 BoardGameLeft(
                     uiState = uiState,
                     uiSectionSizes = uiSectionSizes,
+                    isLoading = isLoading,
                     modifier = Modifier
                         .width(uiSectionSizes.singlePartWidth)
                 )
@@ -52,6 +54,7 @@ fun BoardGameScreenLandscape(
                 tableData = uiState.board,
                 currentDirection = currentDirection,
                 boardGameSize = uiSectionSizes.boardGameSize,
+                isLoading = isLoading,
                 modifier = Modifier
                     .width(uiSectionSizes.singlePartWidth)
                     .height(uiSectionSizes.boardGameHeight)

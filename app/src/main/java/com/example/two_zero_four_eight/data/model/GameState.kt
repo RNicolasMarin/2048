@@ -7,7 +7,8 @@ import com.example.two_zero_four_eight.use_cases.copy
 data class GameState(
     var currentState: SingleGameState = SingleGameState(),
     var previousState: SingleGameState? = null,
-    var originalBestValues: IndividualBestValues = IndividualBestValues()
+    var originalBestValues: IndividualBestValues = IndividualBestValues(),
+    var isLoading: Boolean = false
 )
 
 data class SingleGameState(

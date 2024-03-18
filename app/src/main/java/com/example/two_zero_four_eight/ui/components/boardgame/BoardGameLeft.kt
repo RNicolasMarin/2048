@@ -12,6 +12,7 @@ import com.example.two_zero_four_eight.ui.screens.UiSectionSizesLandscape
 fun BoardGameLeft(
     uiState: SingleGameState,
     uiSectionSizes: UiSectionSizesLandscape,
+    isLoading: Boolean,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -22,6 +23,7 @@ fun BoardGameLeft(
             singlePartHeight = uiSectionSizes.singlePartHeight,
             dataNumber = uiState.numberCurrentRecord,
             dataScore = uiState.scoreCurrentRecord,
+            isLoading = isLoading,
             modifier = Modifier.height(uiSectionSizes.topHeight)
         )
         BoardGameBottom(

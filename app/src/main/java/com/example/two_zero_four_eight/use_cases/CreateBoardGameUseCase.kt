@@ -7,6 +7,7 @@ import com.example.two_zero_four_eight.data.model.IndividualBestValues
 import com.example.two_zero_four_eight.data.model.SingleGameState
 import com.example.two_zero_four_eight.data.repository.RecordRepository
 import com.example.two_zero_four_eight.ui.DEFAULT_NUMBER_TO_WIN
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 const val DEFAULT_VALUE = -1
@@ -30,6 +31,8 @@ class CreateBoardGameUseCase @Inject constructor(
 
         boardGame = useCase.addNumber(boardGame)
         boardGame = useCase.addNumber(boardGame)
+
+        delay(200)
 
         val individualBestValues = repository.getIndividualBestValues(size) ?: IndividualBestValues()
 

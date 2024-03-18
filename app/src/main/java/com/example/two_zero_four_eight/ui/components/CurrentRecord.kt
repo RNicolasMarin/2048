@@ -2,9 +2,11 @@ package com.example.two_zero_four_eight.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,42 +22,52 @@ import com.example.two_zero_four_eight.ui.theme.Black
 import com.example.two_zero_four_eight.ui.theme.Green3
 import com.example.two_zero_four_eight.ui.theme.White
 import com.example.two_zero_four_eight.ui.theme.dimens
+import com.example.two_zero_four_eight.ui.utils.shimmerEffect
 
 @Composable
 fun CurrentRecord(
     data: CurrentRecordData,
     name: String,
+    isLoading: Boolean,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .background(
-                color = Green3,
-                shape = RoundedCornerShape(MaterialTheme.dimens.corners)
-            )
-            .padding(
-                horizontal = MaterialTheme.dimens.currentRecordPaddingHorizontal,
-                vertical = MaterialTheme.dimens.currentRecordPaddingVertical,
-            )
-    ) {
-        Text(
-            text = name,
-            color = Black,
-            style = MaterialTheme.typography.titleMedium
-        )
-        Row {
-            CurrentRecordSection(
-                title = stringResource(id = R.string.current_label),
-                value = data.currentValue
-            )
+    val shape = RoundedCornerShape(MaterialTheme.dimens.corners)
+    Box(modifier = modifier) {
+        if (isLoading) {
+            Box(modifier = Modifier.fillMaxSize().shimmerEffect(shape))
+        } else {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = Green3,
+                        shape = shape
+                    )
+                    .padding(
+                        horizontal = MaterialTheme.dimens.currentRecordPaddingHorizontal,
+                        vertical = MaterialTheme.dimens.currentRecordPaddingVertical,
+                    )
+            ) {
+                Text(
+                    text = name,
+                    color = Black,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Row {
+                    CurrentRecordSection(
+                        title = stringResource(id = R.string.current_label),
+                        value = data.currentValue
+                    )
 
-            Spacer(modifier = Modifier.width(MaterialTheme.dimens.currentRecordPaddingBetween))
+                    Spacer(modifier = Modifier.width(MaterialTheme.dimens.currentRecordPaddingBetween))
 
-            CurrentRecordSection(
-                title = stringResource(id = R.string.record_label),
-                value = data.recordValue
-            )
+                    CurrentRecordSection(
+                        title = stringResource(id = R.string.record_label),
+                        value = data.recordValue
+                    )
+                }
+            }
         }
     }
 }

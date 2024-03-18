@@ -31,13 +31,19 @@ class TwoZeroFourEightViewModel @Inject constructor(
 
     ////check where to get the size value from later on
     fun startNewGame() = viewModelScope.launch  {
+        _gameState.update {
+            it.copy(isLoading = true)
+        }
+
         val current = _gameState.value.currentState
         val newBoard = boardGameUseCases.createBoardGame(current, 3)
+
         _gameState.update {
             it.copy(
                 currentState = newBoard.currentState,
                 previousState = newBoard.previousState,
-                originalBestValues = newBoard.originalBestValues
+                originalBestValues = newBoard.originalBestValues,
+                isLoading = false
             )
         }
     }

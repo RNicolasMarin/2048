@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -23,6 +24,7 @@ import com.example.two_zero_four_eight.ui.theme.Grey2
 import com.example.two_zero_four_eight.ui.theme.dimens
 import com.example.two_zero_four_eight.ui.utils.MovementDirection
 import com.example.two_zero_four_eight.ui.utils.getCellData
+import com.example.two_zero_four_eight.ui.utils.shimmerEffect
 import com.example.two_zero_four_eight.use_cases.DEFAULT_VALUE
 
 /**
@@ -33,27 +35,32 @@ fun BoardGame(
     tableData: List<List<Int>>,
     currentDirection: MovementDirection,
     boardGameSize: Dp,
+    isLoading: Boolean,
     modifier: Modifier = Modifier
 ) {
     val boardInnerPadding = MaterialTheme.dimens.boardInnerPadding
+    val shape = RoundedCornerShape(MaterialTheme.dimens.corners)
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .width(boardGameSize)
-                .height(boardGameSize)
-                .background(
-                    color = Grey2,
-                    shape = RoundedCornerShape(MaterialTheme.dimens.corners)
-                )
-                .padding(boardInnerPadding)
-        ) {
-            items(
-                items = tableData,
-            ) { row ->
-                BoardGameRow(rowData = row, boardGameSize - boardInnerPadding.times(2))
+        if (isLoading) {
+            Box(modifier = Modifier.size(boardGameSize).padding(boardInnerPadding).shimmerEffect(shape))
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .size(boardGameSize)
+                    .background(
+                        color = Grey2,
+                        shape = shape
+                    )
+                    .padding(boardInnerPadding)
+            ) {
+                items(
+                    items = tableData,
+                ) { row ->
+                    BoardGameRow(rowData = row, boardGameSize - boardInnerPadding.times(2))
+                }
             }
         }
     }

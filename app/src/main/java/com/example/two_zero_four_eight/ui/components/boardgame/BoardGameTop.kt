@@ -23,6 +23,7 @@ fun BoardGameTop(
     singlePartHeight: Dp,
     dataNumber: CurrentRecordData,
     dataScore: CurrentRecordData,
+    isLoading: Boolean,
     modifier: Modifier = Modifier
 ) {
     val outerPadding = MaterialTheme.dimens.outerPadding
@@ -46,12 +47,13 @@ fun BoardGameTop(
             CurrentRecord(
                 data = dataNumber,
                 name = stringResource(id = R.string.current_record_number_label),
+                isLoading = isLoading,
                 modifier = Modifier
                     .widthIn(
                         min = MaterialTheme.dimens.currentRecordWidthMin,
                         max = MaterialTheme.dimens.currentRecordWidthMax
                     )
-                    .height(singlePartHeight - outerPadding),
+                    .height(singlePartHeight - outerPadding)
             )
 
             Spacer(modifier = Modifier.height(outerPadding / 2))
@@ -59,6 +61,7 @@ fun BoardGameTop(
             CurrentRecord(
                 data = dataScore,
                 name = stringResource(id = R.string.current_record_score_label),
+                isLoading = isLoading,
                 modifier = Modifier
                     .widthIn(
                         min = MaterialTheme.dimens.currentRecordWidthMin,
