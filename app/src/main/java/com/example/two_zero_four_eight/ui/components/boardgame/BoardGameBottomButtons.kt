@@ -12,8 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import com.example.two_zero_four_eight.R
 import com.example.two_zero_four_eight.ui.components.IconButton
-import com.example.two_zero_four_eight.ui.theme.Black
-import com.example.two_zero_four_eight.ui.theme.White
 import com.example.two_zero_four_eight.ui.theme.dimens
 
 @Composable
@@ -34,7 +32,7 @@ fun BoardGameBottomButtons(
     ) {
         IconButton(
             size = singlePartHeight - innerPadding,
-            color = Black,
+            iconResource = R.drawable.undo_move_2,
             contentDescription = stringResource(id = R.string.start_again_button_description),
             onClick = {
                 previousBoard()
@@ -45,7 +43,7 @@ fun BoardGameBottomButtons(
 
         IconButton(
             size = singlePartHeight - innerPadding,
-            color = White,
+            iconResource = R.drawable.start_again,
             contentDescription = stringResource(id = R.string.start_again_button_description),
             onClick = {
                 startNewGame()

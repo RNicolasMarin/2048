@@ -1,5 +1,6 @@
 package com.example.two_zero_four_eight.ui.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,11 +12,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.two_zero_four_eight.R
 import com.example.two_zero_four_eight.ui.theme.Black
 import com.example.two_zero_four_eight.ui.theme.Green1
 import com.example.two_zero_four_eight.ui.theme.Green3
@@ -27,7 +26,7 @@ fun IconButton(
     onClick: () -> Unit,
     size: Dp,
     contentDescription: String,
-    color: Color,
+    @DrawableRes iconResource: Int,
     modifier: Modifier = Modifier,
 ) {
 
@@ -50,9 +49,9 @@ fun IconButton(
         )
     ) {
         Icon(
-            painter = painterResource(R.drawable.start_again),
+            painter = painterResource(iconResource),
             contentDescription = contentDescription,
-            tint = color,//White,
+            tint = White,
             modifier = Modifier.fillMaxSize()
         )
     }
