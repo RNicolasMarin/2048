@@ -34,12 +34,11 @@ fun CurrentRecord(
     val shape = RoundedCornerShape(MaterialTheme.dimens.corners)
     Box(modifier = modifier) {
         if (isLoading) {
-            Box(modifier = Modifier.fillMaxSize().shimmerEffect(shape))
+            Box(modifier = modifier.shimmerEffect(shape))
         } else {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = modifier
                     .background(
                         color = Green3,
                         shape = shape

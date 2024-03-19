@@ -33,7 +33,7 @@ fun Modifier.shimmerEffect(shape: Shape = RectangleShape): Modifier = composed {
         initialValue = -2 * size.width.toFloat(),
         targetValue = 2 * size.width.toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(1000)
+            animation = tween(800)
         ),
         label = ""
     )

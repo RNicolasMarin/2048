@@ -32,7 +32,7 @@ class CreateBoardGameUseCase @Inject constructor(
         boardGame = useCase.addNumber(boardGame)
         boardGame = useCase.addNumber(boardGame)
 
-        delay(200)
+        delay(400)
 
         val individualBestValues = repository.getIndividualBestValues(size) ?: IndividualBestValues()
 
