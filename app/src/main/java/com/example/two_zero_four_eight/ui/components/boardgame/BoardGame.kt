@@ -28,7 +28,8 @@ import com.example.two_zero_four_eight.ui.utils.shimmerEffect
 import com.example.two_zero_four_eight.use_cases.DEFAULT_VALUE
 
 /**
- * [currentDirection] allows to refresh the table. Check hot to fix this bug.
+ * It renders the board game with empty cells and cells with numbers.
+ * [currentDirection] is needed to refresh the board. Check how to fix this bug.
  * **/
 @Composable
 fun BoardGame(

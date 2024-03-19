@@ -14,10 +14,24 @@ class UpdateCurrentRecordsUseCase @Inject constructor(
 
     private lateinit var gameState: GameState
 
+    /**
+     * It receives [state], modifies it and returns it.
+     *
+     * In the changes are:
+     *
+     * 1) it updates the current and record number on memory if they surpass the previous current number
+     * and if the current number surpass the previous record respectively.
+     *
+     * 2) it checks if it should save a new record. That's if it's not GAME_OVER and the current record
+     * is higher than the original record for either number or score.
+     *
+     * 3) if it's needed gets the records for the board size and if there's less than 10 add the new
+     * one to the db. If not replace the less relevant one with the new one using the same id.
+     * **/
     suspend fun updateValues(state: GameState): GameState = with(state) {
         gameState = this
 
-        updateNumber()
+        updateNumberOnMemory()
 
         val createNewRecord = shouldCreateNewRecord(currentState.numberCurrentRecord, originalBestValues.number)
                 || shouldCreateNewRecord(currentState.scoreCurrentRecord, originalBestValues.score)
@@ -78,7 +92,7 @@ class UpdateCurrentRecordsUseCase @Inject constructor(
         return currentRecord.recordValue > originalValue
     }
 
-    private fun updateNumber() = with(gameState.currentState.numberCurrentRecord) {
+    private fun updateNumberOnMemory() = with(gameState.currentState.numberCurrentRecord) {
         val newNumber = gameState.currentState.board.flatten().max()
 
         if (newNumber > currentValue) {

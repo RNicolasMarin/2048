@@ -20,7 +20,9 @@ import androidx.compose.ui.unit.IntSize
 import com.example.two_zero_four_eight.ui.theme.Grey1
 import com.example.two_zero_four_eight.ui.theme.Grey2
 
-
+/**
+ * It shows the shimmer effect while something is loading.
+ * **/
 fun Modifier.shimmerEffect(shape: Shape = RectangleShape): Modifier = composed {
 
     var size by remember {

@@ -72,9 +72,10 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    //test
+    //Test
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("io.mockk:mockk:1.12.5")
 
     //ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -96,8 +97,5 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
-
-    //Test
-    testImplementation("io.mockk:mockk:1.12.5")
 
 }

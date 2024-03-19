@@ -21,6 +21,9 @@ class CreateBoardGameUseCase @Inject constructor(
      * the rows and columns with [DEFAULT_VALUE] for each cell as a default value
      *
      * Then adds the first and second number to the boardGame and returns it.
+     *
+     * Finally makes the request to get the record number and record score for that
+     * board size and creates the current state.
      * **/
     suspend fun createBoardGame(previousState: SingleGameState, size: Int): GameState {
         var boardGame = MutableList(size) { //rows
@@ -32,11 +35,13 @@ class CreateBoardGameUseCase @Inject constructor(
         boardGame = useCase.addNumber(boardGame)
         boardGame = useCase.addNumber(boardGame)
 
+        //small delay to show the simmer effect better
         delay(400)
 
         val individualBestValues = repository.getIndividualBestValues(size) ?: IndividualBestValues()
 
         return GameState(
+            //iif there's a previous state it uses it, if not sets a null
             previousState = if (previousState.board.isEmpty()) null else previousState,
             currentState = SingleGameState(
                 board = boardGame,

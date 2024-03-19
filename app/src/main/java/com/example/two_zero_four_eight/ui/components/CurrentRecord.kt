@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +23,9 @@ import com.example.two_zero_four_eight.ui.theme.White
 import com.example.two_zero_four_eight.ui.theme.dimens
 import com.example.two_zero_four_eight.ui.utils.shimmerEffect
 
+/**
+ * It shows the name, current and record values for number or score.
+ * **/
 @Composable
 fun CurrentRecord(
     data: CurrentRecordData,

@@ -16,6 +16,7 @@ class CombineAndMoveNumbersUseCase {
      * If [movementDirection] was [NONE] (shouldn't apply changes, it's an extra case) or
      * if even after applying a move the boardGame is the same would return null.
      * In other case would return the the boardGame with the move applied.
+     * It also update the current and record (if needed) scores if there was a change.
      * **/
     fun combineAndMove(
         movementDirection: MovementDirection,
@@ -57,6 +58,7 @@ class CombineAndMoveNumbersUseCase {
     /**
      * It returns the MutableList<MutableList<Int>> that represents the boardGame but with the
      * numbers combined/moved to the left or right.
+     * It also update the score each time 2 of the same consecutive number are combined.
      * **/
     private fun applyLeftRightMove(
         movementDirection: MovementDirection,
@@ -112,8 +114,9 @@ class CombineAndMoveNumbersUseCase {
     /**
      * It returns the MutableList<MutableList<Int>> that represents the boardGame but with the
      * numbers combined/moved to up or down.
+     * It also update the score each time 2 of the same consecutive number are combined.
      *
-     * It similar to getLeftRightMove but with some changes on the way to move on the Lists and
+     * It's similar to getLeftRightMove but with some changes on the way to move on the Lists and
      * how it handle the numbers.
      * **/
     private fun applyUpDownMove(

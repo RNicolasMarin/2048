@@ -13,6 +13,7 @@ import com.example.two_zero_four_eight.ui.theme.Grey1
 import com.example.two_zero_four_eight.ui.theme.White
 import com.example.two_zero_four_eight.use_cases.DEFAULT_VALUE
 
+/**It has the details to know how to render a cell on the boardGame**/
 data class CellData(
     val backgroundColor: Color,
     val textColor: Color

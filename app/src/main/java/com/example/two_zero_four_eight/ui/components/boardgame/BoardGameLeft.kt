@@ -8,6 +8,9 @@ import androidx.compose.ui.Modifier
 import com.example.two_zero_four_eight.data.model.SingleGameState
 import com.example.two_zero_four_eight.ui.screens.UiSectionSizesLandscape
 
+/**
+ * Component used to render the left side of the screen on landscape.
+ * **/
 @Composable
 fun BoardGameLeft(
     uiState: SingleGameState,

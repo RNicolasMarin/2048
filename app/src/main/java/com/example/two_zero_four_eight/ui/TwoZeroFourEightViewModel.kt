@@ -29,7 +29,6 @@ class TwoZeroFourEightViewModel @Inject constructor(
         startNewGame()
     }
 
-    ////check where to get the size value from later on
     fun startNewGame() = viewModelScope.launch  {
         _gameState.update {
             it.copy(isLoading = true)

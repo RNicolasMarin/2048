@@ -18,6 +18,9 @@ import com.example.two_zero_four_eight.ui.components.AppName
 import com.example.two_zero_four_eight.ui.components.CurrentRecord
 import com.example.two_zero_four_eight.ui.theme.dimens
 
+/**
+ * It renders the top part of the screen on Portrait mode or the top of the left side of the screen on Landscape mode.
+ * **/
 @Composable
 fun BoardGameTop(
     singlePartHeight: Dp,
