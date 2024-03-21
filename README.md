@@ -128,4 +128,4 @@ As for features planned for the next version, I'll include:
 
 ## Feedback
 
-If you have any feedback, please reach out to me at [LinkedIn](www.linkedin.com/in/rnicolasmarin).
+If you have any feedback, please reach out to me at [LinkedIn](https://www.linkedin.com/in/rnicolasmarin/).
