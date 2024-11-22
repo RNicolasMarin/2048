@@ -46,7 +46,7 @@ fun Modifier.shimmerEffect(shape: Shape = RectangleShape): Modifier = composed {
         ),
         shape = shape
     )
-        .onGloballyPositioned {
-            size = it.size
-        }
+    .onGloballyPositioned {
+        size = it.size
+    }
 }

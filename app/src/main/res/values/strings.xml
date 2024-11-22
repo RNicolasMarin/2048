@@ -18,6 +18,12 @@
     <string name="all">All</string>
     <string name="number">Number</string>
     <string name="score">Score</string>
+    <string name="size">Size</string>
     <string name="by">By</string>
     <string name="no_records">No Records</string>
+
+    <string name="no_records_title">¡No Records!</string>
+    <string name="no_records_message">Play some matches</string>
+    <string name="go_to_menu">Go to Menu</string>
+
 </resources>

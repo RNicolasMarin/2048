@@ -1,6 +1,7 @@
-package com.example.two_zero_four_eight.presentation_old.ui.records
+package com.example.two_zero_four_eight.presentation.ui.records
 
 import com.example.two_zero_four_eight.domain.models.Record
+import com.example.two_zero_four_eight.presentation.ui.records.RecordsStatus.*
 import com.example.two_zero_four_eight.presentation_old.ui.records.components.FilterOption
 import com.example.two_zero_four_eight.presentation_old.ui.records.components.RecordsButtonsState
 import com.example.two_zero_four_eight.presentation_old.ui.records.components.RecordsButtonsState.*
@@ -13,6 +14,13 @@ data class RecordsState(
     var filterOptions: List<FilterOption> = listOf(),
     var sortOptions: List<SortOption> = listOf(),
     var selectedSortOption: Sort = NUMBER,
-    var isLoading: Boolean = false,
+    var status: RecordsStatus = LOADING,
     var records: List<Record> = listOf(),
 )
+
+enum class RecordsStatus {
+    LOADING,
+    NO_RECORDS,
+    NO_FILTERED_RECORDS,
+    RECORDS
+}

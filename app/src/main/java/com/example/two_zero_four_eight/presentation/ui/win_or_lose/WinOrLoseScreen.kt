@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import com.example.two_zero_four_eight.presentation.design_system.MultiDevicePre
 import com.example.two_zero_four_eight.presentation.design_system.ScreenContentOrientation
 import com.example.two_zero_four_eight.presentation.design_system.ScreenContentOrientation.LANDSCAPE
 import com.example.two_zero_four_eight.presentation.design_system.ScreenContentOrientation.PORTRAIT
+import com.example.two_zero_four_eight.presentation.design_system.ScreenContentOrientation.SIMPLIFIED
 import com.example.two_zero_four_eight.presentation.design_system.TwoZeroFourEightTheme
 import com.example.two_zero_four_eight.presentation.design_system.components.CurrentsRecordsBoard
 import com.example.two_zero_four_eight.presentation.design_system.components.LabelText
@@ -29,7 +31,7 @@ import com.example.two_zero_four_eight.presentation.design_system.dimens
 import com.example.two_zero_four_eight.presentation.design_system.screenContentOrientation
 import com.example.two_zero_four_eight.presentation.design_system.typographies
 import com.example.two_zero_four_eight.presentation.ui.win_or_lose.components.BottomButtonGameOver
-import com.example.two_zero_four_eight.presentation.ui.win_or_lose.components.BottomButtonYouWin
+import com.example.two_zero_four_eight.presentation.design_system.components.BottomWideButton
 import com.example.two_zero_four_eight.presentation_old.design_system.Black
 import com.example.two_zero_four_eight.presentation_old.design_system.Green7
 
@@ -50,11 +52,27 @@ fun WinOrLoseScreen(
         onBackButtonPressed()
     }
 
+    val bottom = when (screenContentOrientation) {
+        PORTRAIT -> dimens.screenPaddingBottom1
+        else -> dimens.screenPadding
+    }
+    val top = when (screenContentOrientation) {
+        PORTRAIT -> dimens.screenPaddingTop1
+        else -> dimens.screenPadding
+    }
+    val startEnd = if (screenContentOrientation == SIMPLIFIED) dimens.screenPadding else dimens.screenPadding * 2
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Green7),
-        verticalArrangement = Arrangement.SpaceEvenly,
+            .background(Green7)
+            .padding(
+                top = top,
+                bottom = bottom,
+                start = startEnd,
+                end = startEnd,
+            ),
+        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -124,7 +142,8 @@ fun YouWinScreen(
         scoreCurrentRecord = scoreCurrentRecord,
         onBackButtonPressed = onBackButtonPressed,
         bottomButton = {
-            BottomButtonYouWin(
+            BottomWideButton(
+                id = R.string.continue_button,
                 goBackFromYouWin = onBackButtonPressed
             )
         }

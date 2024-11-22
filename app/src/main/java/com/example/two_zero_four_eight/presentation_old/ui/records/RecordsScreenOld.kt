@@ -25,24 +25,27 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.two_zero_four_eight.R
 import com.example.two_zero_four_eight.domain.models.Record
+import com.example.two_zero_four_eight.presentation.ui.records.RecordsAction
+import com.example.two_zero_four_eight.presentation.ui.records.RecordsState
+import com.example.two_zero_four_eight.presentation.ui.records.RecordsViewModel
 import com.example.two_zero_four_eight.presentation_old.design_system.Black
 import com.example.two_zero_four_eight.presentation_old.design_system.Green3
 import com.example.two_zero_four_eight.presentation_old.design_system.Green5
 import com.example.two_zero_four_eight.presentation_old.design_system.Green7
-import com.example.two_zero_four_eight.presentation_old.ui.records.components.RecordsButtons
+import com.example.two_zero_four_eight.presentation_old.ui.records.components.RecordsButtonsOld
 
 @Composable
-fun RecordsScreenRoot(
+fun RecordsScreenRootOld(
     viewModel: RecordsViewModel = hiltViewModel(),
 ) {
-    RecordsScreen(
+    RecordsScreenOld(
         state = viewModel.state,
         onAction = viewModel::onAction
     )
 }
 
 @Composable
-private fun RecordsScreen(
+private fun RecordsScreenOld(
     state: RecordsState,
     onAction: (RecordsAction) -> Unit
 ) {
@@ -53,7 +56,7 @@ private fun RecordsScreen(
             .background(Green7)
             .padding(12.dp),
     ) {
-        RecordsButtons(
+        RecordsButtonsOld(
             state = state,
             onAction = onAction,
             modifier = Modifier.fillMaxWidth()
@@ -73,7 +76,7 @@ private fun RecordsScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items(state.records.size) {index ->
-                    RecordCard(state.records[index])
+                    RecordCardOld(state.records[index])
                 }
             }
         }
@@ -81,7 +84,7 @@ private fun RecordsScreen(
 }
 
 @Composable
-fun RecordCard(
+fun RecordCardOld(
     record: Record,
     modifier: Modifier = Modifier
 ) {
@@ -95,26 +98,26 @@ fun RecordCard(
                 .background(color = Green5)
                 .padding(vertical = 12.dp, horizontal = 20.dp)
         ) {
-            RecordCardColumnSection("Score", record.score.toString())
+            RecordCardColumnSectionOld("Score", record.score.toString())
             Spacer(modifier = Modifier.width(8.dp))
-            RecordCardColumnSection("Number", record.number.toString())
+            RecordCardColumnSectionOld("Number", record.number.toString())
             Spacer(modifier = Modifier.width(8.dp))
-            RecordCardColumnSection("Size", record.boardSize.toString())
+            RecordCardColumnSectionOld("Size", record.boardSize.toString())
         }
     }
 }
 
 @Composable
-fun RecordCardColumnSection(
+fun RecordCardColumnSectionOld(
     label: String,
     value: String
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        RecordCardLabel(label, Modifier)
+        RecordCardLabelOld(label, Modifier)
         Spacer(modifier = Modifier.height(8.dp))
-        RecordCardValue(value, Modifier)
+        RecordCardValueOld(value, Modifier)
     }
 }
 
@@ -142,7 +145,7 @@ fun RecordCardForGrid(
 }
 
 @Composable
-fun RecordCardLabel(
+fun RecordCardLabelOld(
     text: String,
     modifier: Modifier
 ) {
@@ -155,7 +158,7 @@ fun RecordCardLabel(
 }
 
 @Composable
-fun RecordCardValue(
+fun RecordCardValueOld(
     text: String,
     modifier: Modifier
 ) {
@@ -177,7 +180,7 @@ fun RecordCardRowSection(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        RecordCardLabel(label, Modifier.weight(1f))
-        RecordCardValue(value, Modifier.weight(1f))
+        RecordCardLabelOld(label, Modifier.weight(1f))
+        RecordCardValueOld(value, Modifier.weight(1f))
     }
 }

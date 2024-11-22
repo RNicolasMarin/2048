@@ -54,7 +54,6 @@ fun MenuScreenRoot(
             }
             viewModel.onAction(action)
         },
-        modifier = Modifier.fillMaxSize()
     )
 }
 
@@ -108,7 +107,6 @@ fun MenuScreen(
                     horizontal = screenPadding * 2,
                     vertical = screenPadding
                 )
-
         ) {
             if (screenContentOrientation == PORTRAIT) {
                 BoardGame(

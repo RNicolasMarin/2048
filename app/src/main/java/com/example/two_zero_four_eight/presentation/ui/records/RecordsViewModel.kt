@@ -1,4 +1,4 @@
-package com.example.two_zero_four_eight.presentation_old.ui.records
+package com.example.two_zero_four_eight.presentation.ui.records
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.two_zero_four_eight.domain.models.BoardSize
 import com.example.two_zero_four_eight.domain.repositories.RecordRepository
-import com.example.two_zero_four_eight.presentation_old.ui.records.RecordsAction.*
+import com.example.two_zero_four_eight.presentation.ui.records.RecordsAction.*
+import com.example.two_zero_four_eight.presentation.ui.records.RecordsStatus.*
 import com.example.two_zero_four_eight.presentation_old.ui.records.components.FilterOption
 import com.example.two_zero_four_eight.presentation_old.ui.records.components.RecordsButtonsState
 import com.example.two_zero_four_eight.presentation_old.ui.records.components.RecordsButtonsState.*
@@ -15,6 +16,7 @@ import com.example.two_zero_four_eight.presentation_old.ui.records.components.So
 import com.example.two_zero_four_eight.presentation_old.ui.records.components.Sort.*
 import com.example.two_zero_four_eight.presentation_old.ui.records.components.SortOption
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,8 +39,7 @@ class RecordsViewModel @Inject constructor(
         viewModelScope.launch {
             state = state.copy(
                 filterOptions = filterOptions,
-                sortOptions = sortOptions,
-                isLoading = true
+                sortOptions = sortOptions
             )
             loadRecords(filterOptions, state.selectedSortOption)
         }
@@ -50,8 +51,17 @@ class RecordsViewModel @Inject constructor(
             NUMBER -> repository.getRecordsWithSizesAndSortedByNumber(filters)
             SCORE -> repository.getRecordsWithSizesAndSortedByScore(filters)
         }
+
+        val status = when {
+            records.isEmpty() && filters == allFilterOptionNumbers -> NO_RECORDS
+            records.isEmpty() && filters != allFilterOptionNumbers -> NO_FILTERED_RECORDS
+            else -> RECORDS
+        }
+
+        delay(500)
+
         state = state.copy(
-            isLoading = false,
+            status = status,
             records = records
         )
     }
@@ -67,7 +77,7 @@ class RecordsViewModel @Inject constructor(
                 }
                 state = state.copy(
                     filterOptions = filterOptions,
-                    isLoading = true
+                    status = LOADING
                 )
                 loadRecords(filterOptions.filter { it.selected }, state.selectedSortOption)
             }
@@ -85,7 +95,7 @@ class RecordsViewModel @Inject constructor(
                         )
                     },
                     selectedSortOption = option.sort,
-                    isLoading = true
+                    status = LOADING
                 )
                 loadRecords(state.filterOptions.filter { it.selected }, option.sort)
             }
@@ -97,6 +107,8 @@ class RecordsViewModel @Inject constructor(
                     NONE -> Unit
                 }
             }
+
+            else -> Unit
         }
     }
 

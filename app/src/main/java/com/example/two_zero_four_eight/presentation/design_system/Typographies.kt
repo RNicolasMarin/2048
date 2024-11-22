@@ -20,6 +20,20 @@ data class Typographies(
         lineHeight = 25.sp,
         letterSpacing = 0.5.sp
     ),
+    val text24Regular: TextStyle = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 24.sp,
+        lineHeight = 25.sp,
+        letterSpacing = 0.5.sp
+    ),
+    val text20Bold: TextStyle = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        lineHeight = 21.sp,
+        letterSpacing = 0.5.sp
+    ),
     val text16Bold: TextStyle = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,

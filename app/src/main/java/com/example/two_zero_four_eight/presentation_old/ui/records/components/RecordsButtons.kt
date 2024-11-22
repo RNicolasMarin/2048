@@ -30,13 +30,13 @@ import com.example.two_zero_four_eight.presentation_old.design_system.Green2
 import com.example.two_zero_four_eight.presentation_old.design_system.Green3
 import com.example.two_zero_four_eight.presentation_old.design_system.White
 import com.example.two_zero_four_eight.presentation_old.design_system.dimensOld
-import com.example.two_zero_four_eight.presentation_old.ui.records.RecordsAction
-import com.example.two_zero_four_eight.presentation_old.ui.records.RecordsAction.*
-import com.example.two_zero_four_eight.presentation_old.ui.records.RecordsState
+import com.example.two_zero_four_eight.presentation.ui.records.RecordsAction
+import com.example.two_zero_four_eight.presentation.ui.records.RecordsAction.*
+import com.example.two_zero_four_eight.presentation.ui.records.RecordsState
 import com.example.two_zero_four_eight.presentation_old.ui.records.components.RecordsButtonsState.*
 
 @Composable
-fun RecordsButtons(
+fun RecordsButtonsOld(
     state: RecordsState,
     onAction: (RecordsAction) -> Unit,
     modifier: Modifier = Modifier
@@ -44,14 +44,14 @@ fun RecordsButtons(
 
     Column {
         Row(modifier = modifier) {
-            RecordsButton(
+            RecordsButtonOld(
                 text = getFilterOptionsAsText(state.filterOptions, stringResource(id = R.string.all)),
                 open = state.buttonsState == FILTER,
                 onClick = { onAction(OnButtonStateChanged(FILTER)) },
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(12.dp))
-            RecordsButton(
+            RecordsButtonOld(
                 text = "${stringResource(id = R.string.by)} ${stringResource(id = state.selectedSortOption.text)}",
                 open = state.buttonsState == SORT,
                 onClick = { onAction(OnButtonStateChanged(SORT)) },
@@ -60,7 +60,7 @@ fun RecordsButtons(
         }
         when (state.buttonsState) {
             FILTER -> {
-                RecordsButtonOptions(
+                RecordsButtonOptionsOld(
                     columns = 3,
                     showTopEnd = true,
                     items = state.filterOptions,
@@ -70,7 +70,7 @@ fun RecordsButtons(
                 )
             }
             SORT -> {
-                RecordsButtonOptions(
+                RecordsButtonOptionsOld(
                     columns = 2,
                     showTopStart = true,
                     items = state.sortOptions,
@@ -85,7 +85,7 @@ fun RecordsButtons(
 }
 
 @Composable
-fun <T>RecordsButtonOptions(
+fun <T>RecordsButtonOptionsOld(
     columns: Int,
     showTopStart: Boolean = false,
     showTopEnd: Boolean = false,
@@ -113,7 +113,7 @@ fun <T>RecordsButtonOptions(
             )
     ) {
         itemsIndexed(items) { index, item ->
-            RecordsButtonOption(
+            RecordsButtonOptionOld(
                 selected = isSelected(item),
                 text = getText(item),
                 onChecked = { onAction(index) }
@@ -123,7 +123,7 @@ fun <T>RecordsButtonOptions(
 }
 
 @Composable
-fun RecordsButtonOption(
+fun RecordsButtonOptionOld(
     selected: Boolean,
     text: String,
     onChecked: () -> Unit
@@ -160,7 +160,7 @@ fun getFilterOptionsAsText(options: List<FilterOption>, all: String): String {
 }
 
 @Composable
-fun RecordsButton(
+fun RecordsButtonOld(
     text: String,
     open: Boolean,
     onClick: () -> Unit,
