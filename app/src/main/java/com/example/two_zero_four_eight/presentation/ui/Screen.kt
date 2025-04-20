@@ -1,4 +1,4 @@
-package com.example.two_zero_four_eight.presentation_old.ui
+package com.example.two_zero_four_eight.presentation.ui
 
 import kotlinx.serialization.Serializable
 

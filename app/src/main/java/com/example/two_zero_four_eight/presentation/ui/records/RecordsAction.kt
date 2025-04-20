@@ -1,6 +1,6 @@
 package com.example.two_zero_four_eight.presentation.ui.records
 
-import com.example.two_zero_four_eight.presentation_old.ui.records.components.RecordsButtonsState
+import com.example.two_zero_four_eight.presentation.ui.records.components.RecordsButtonsState
 
 sealed interface RecordsAction {
 

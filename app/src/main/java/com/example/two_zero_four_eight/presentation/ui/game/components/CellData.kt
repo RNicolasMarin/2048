@@ -1,4 +1,4 @@
-package com.example.two_zero_four_eight.presentation_old.ui.game.components
+package com.example.two_zero_four_eight.presentation.ui.game.components
 
 import androidx.compose.ui.graphics.Color
 import com.example.two_zero_four_eight.presentation_old.design_system.Black

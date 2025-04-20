@@ -33,7 +33,6 @@ import com.example.two_zero_four_eight.presentation.design_system.typographies
 import com.example.two_zero_four_eight.presentation_old.design_system.Black
 import com.example.two_zero_four_eight.presentation_old.design_system.Grey2
 import com.example.two_zero_four_eight.presentation_old.design_system.shimmerEffect
-import com.example.two_zero_four_eight.presentation_old.ui.game.components.getCellData
 import kotlin.math.sqrt
 
 @Composable

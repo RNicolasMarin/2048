@@ -1,4 +1,4 @@
-package com.example.two_zero_four_eight.presentation_old.ui.records.components
+package com.example.two_zero_four_eight.presentation.ui.records.components
 
 import com.example.two_zero_four_eight.domain.models.BoardSize
 

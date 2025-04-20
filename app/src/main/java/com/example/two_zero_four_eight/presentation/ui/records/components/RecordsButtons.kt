@@ -40,8 +40,7 @@ import com.example.two_zero_four_eight.presentation_old.design_system.Green1
 import com.example.two_zero_four_eight.presentation_old.design_system.Green2
 import com.example.two_zero_four_eight.presentation_old.design_system.Green3
 import com.example.two_zero_four_eight.presentation_old.design_system.White
-import com.example.two_zero_four_eight.presentation_old.ui.records.components.FilterOption
-import com.example.two_zero_four_eight.presentation_old.ui.records.components.RecordsButtonsState.*
+import com.example.two_zero_four_eight.presentation.ui.records.components.RecordsButtonsState.*
 
 @Composable
 fun RecordsButtons(

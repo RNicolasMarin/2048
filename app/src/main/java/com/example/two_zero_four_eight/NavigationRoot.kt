@@ -15,11 +15,11 @@ import com.example.two_zero_four_eight.presentation.ui.menu.MenuScreenRoot
 import com.example.two_zero_four_eight.presentation.ui.records.RecordsScreenRoot
 import com.example.two_zero_four_eight.presentation.ui.win_or_lose.GameOverScreen
 import com.example.two_zero_four_eight.presentation.ui.win_or_lose.YouWinScreen
-import com.example.two_zero_four_eight.presentation_old.ui.Screen.Game
-import com.example.two_zero_four_eight.presentation_old.ui.Screen.GameOver
-import com.example.two_zero_four_eight.presentation_old.ui.Screen.Menu
-import com.example.two_zero_four_eight.presentation_old.ui.Screen.Records
-import com.example.two_zero_four_eight.presentation_old.ui.Screen.YouWin
+import com.example.two_zero_four_eight.presentation.ui.Screen.Game
+import com.example.two_zero_four_eight.presentation.ui.Screen.GameOver
+import com.example.two_zero_four_eight.presentation.ui.Screen.Menu
+import com.example.two_zero_four_eight.presentation.ui.Screen.Records
+import com.example.two_zero_four_eight.presentation.ui.Screen.YouWin
 
 @Composable
 fun NavigationRoot(
