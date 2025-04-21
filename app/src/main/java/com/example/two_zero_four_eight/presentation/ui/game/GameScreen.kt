@@ -36,9 +36,9 @@ import com.example.two_zero_four_eight.presentation.ui.game.GameAction.OnMoveNum
 import com.example.two_zero_four_eight.presentation.ui.game.GameAction.OnPreviousBoard
 import com.example.two_zero_four_eight.presentation.ui.game.GameAction.OnStartGame
 import com.example.two_zero_four_eight.presentation.ui.game.components.BoardGame
-import com.example.two_zero_four_eight.presentation_old.design_system.Green7
-import com.example.two_zero_four_eight.presentation_old.design_system.ObserveAsEvents
-import com.example.two_zero_four_eight.presentation_old.design_system.movements.DragGesturesDirectionDetector
+import com.example.two_zero_four_eight.presentation.design_system.Green7
+import com.example.two_zero_four_eight.presentation.design_system.ObserveAsEvents
+import com.example.two_zero_four_eight.presentation.design_system.movements.DragGesturesDirectionDetector
 
 @Composable
 fun GameScreenRoot(

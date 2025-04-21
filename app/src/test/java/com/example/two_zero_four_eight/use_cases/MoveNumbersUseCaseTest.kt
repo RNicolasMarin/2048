@@ -15,7 +15,7 @@ import com.example.two_zero_four_eight.domain.use_cases.HasWonTheGameUseCase
 import com.example.two_zero_four_eight.domain.use_cases.IsTherePossibleMovesUseCase
 import com.example.two_zero_four_eight.domain.use_cases.MoveNumbersUseCase
 import com.example.two_zero_four_eight.domain.use_cases.UpdateCurrentRecordsUseCase
-import com.example.two_zero_four_eight.presentation_old.design_system.movements.MovementDirection.*
+import com.example.two_zero_four_eight.presentation.design_system.movements.MovementDirection.*
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk

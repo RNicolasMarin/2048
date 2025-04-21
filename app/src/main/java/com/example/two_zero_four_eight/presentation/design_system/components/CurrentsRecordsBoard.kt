@@ -28,10 +28,10 @@ import com.example.two_zero_four_eight.presentation.design_system.getMeasureResu
 import com.example.two_zero_four_eight.presentation.design_system.heightSize
 import com.example.two_zero_four_eight.presentation.design_system.toSize
 import com.example.two_zero_four_eight.presentation.design_system.typographies
-import com.example.two_zero_four_eight.presentation_old.design_system.Green1
-import com.example.two_zero_four_eight.presentation_old.design_system.Green3
-import com.example.two_zero_four_eight.presentation_old.design_system.White
-import com.example.two_zero_four_eight.presentation_old.design_system.shimmerEffect
+import com.example.two_zero_four_eight.presentation.design_system.Green1
+import com.example.two_zero_four_eight.presentation.design_system.Green3
+import com.example.two_zero_four_eight.presentation.design_system.White
+import com.example.two_zero_four_eight.presentation.design_system.shimmerEffect
 import kotlin.math.max
 
 @Composable

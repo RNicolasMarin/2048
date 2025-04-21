@@ -36,7 +36,7 @@ import com.example.two_zero_four_eight.presentation.ui.menu.MenuAction.OnNextSiz
 import com.example.two_zero_four_eight.presentation.ui.menu.MenuAction.OnPreviousSize
 import com.example.two_zero_four_eight.presentation.ui.menu.MenuAction.OnRecords
 import com.example.two_zero_four_eight.presentation.ui.menu.MenuAction.OnStartGame
-import com.example.two_zero_four_eight.presentation_old.design_system.Green7
+import com.example.two_zero_four_eight.presentation.design_system.Green7
 
 @Composable
 fun MenuScreenRoot(

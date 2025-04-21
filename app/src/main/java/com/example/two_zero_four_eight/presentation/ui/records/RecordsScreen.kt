@@ -50,10 +50,10 @@ import com.example.two_zero_four_eight.presentation.ui.records.RecordsStatus.NO_
 import com.example.two_zero_four_eight.presentation.ui.records.RecordsStatus.NO_RECORDS
 import com.example.two_zero_four_eight.presentation.ui.records.RecordsStatus.RECORDS
 import com.example.two_zero_four_eight.presentation.ui.records.components.RecordsButtons
-import com.example.two_zero_four_eight.presentation_old.design_system.Black
-import com.example.two_zero_four_eight.presentation_old.design_system.Green3
-import com.example.two_zero_four_eight.presentation_old.design_system.Green5
-import com.example.two_zero_four_eight.presentation_old.design_system.Green7
+import com.example.two_zero_four_eight.presentation.design_system.Black
+import com.example.two_zero_four_eight.presentation.design_system.Green3
+import com.example.two_zero_four_eight.presentation.design_system.Green5
+import com.example.two_zero_four_eight.presentation.design_system.Green7
 
 @Composable
 fun RecordsScreenRoot(

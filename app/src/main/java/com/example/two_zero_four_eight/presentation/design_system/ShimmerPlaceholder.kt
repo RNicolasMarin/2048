@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.platform.LocalDensity
-import com.example.two_zero_four_eight.presentation_old.design_system.shimmerEffect
 
 @Composable
 fun ShimmerPlaceholder(

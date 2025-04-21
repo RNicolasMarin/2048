@@ -21,10 +21,10 @@ import com.example.two_zero_four_eight.R
 import com.example.two_zero_four_eight.presentation.design_system.Dimens
 import com.example.two_zero_four_eight.presentation.design_system.TwoZeroFourEightTheme
 import com.example.two_zero_four_eight.presentation.design_system.dimens
-import com.example.two_zero_four_eight.presentation_old.design_system.Black
-import com.example.two_zero_four_eight.presentation_old.design_system.Green1
-import com.example.two_zero_four_eight.presentation_old.design_system.Green3
-import com.example.two_zero_four_eight.presentation_old.design_system.White
+import com.example.two_zero_four_eight.presentation.design_system.Black
+import com.example.two_zero_four_eight.presentation.design_system.Green1
+import com.example.two_zero_four_eight.presentation.design_system.Green3
+import com.example.two_zero_four_eight.presentation.design_system.White
 
 @Composable
 fun IconButton(

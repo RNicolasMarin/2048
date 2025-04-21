@@ -15,8 +15,8 @@ import com.example.two_zero_four_eight.presentation.design_system.Dimens
 import com.example.two_zero_four_eight.presentation.design_system.TwoZeroFourEightTheme
 import com.example.two_zero_four_eight.presentation.design_system.dimens
 import com.example.two_zero_four_eight.presentation.design_system.typographies
-import com.example.two_zero_four_eight.presentation_old.design_system.Green2
-import com.example.two_zero_four_eight.presentation_old.design_system.White
+import com.example.two_zero_four_eight.presentation.design_system.Green2
+import com.example.two_zero_four_eight.presentation.design_system.White
 
 @Composable
 fun LabelText(

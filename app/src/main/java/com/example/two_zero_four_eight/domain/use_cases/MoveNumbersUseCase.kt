@@ -2,7 +2,7 @@ package com.example.two_zero_four_eight.domain.use_cases
 
 import com.example.two_zero_four_eight.presentation.ui.game.GameState
 import com.example.two_zero_four_eight.presentation.ui.game.GameStatus.*
-import com.example.two_zero_four_eight.presentation_old.design_system.movements.MovementDirection
+import com.example.two_zero_four_eight.presentation.design_system.movements.MovementDirection
 import javax.inject.Inject
 
 class MoveNumbersUseCase @Inject constructor(

@@ -32,8 +32,8 @@ import com.example.two_zero_four_eight.presentation.design_system.screenContentO
 import com.example.two_zero_four_eight.presentation.design_system.typographies
 import com.example.two_zero_four_eight.presentation.ui.win_or_lose.components.BottomButtonGameOver
 import com.example.two_zero_four_eight.presentation.design_system.components.BottomWideButton
-import com.example.two_zero_four_eight.presentation_old.design_system.Black
-import com.example.two_zero_four_eight.presentation_old.design_system.Green7
+import com.example.two_zero_four_eight.presentation.design_system.Black
+import com.example.two_zero_four_eight.presentation.design_system.Green7
 
 @Composable
 fun WinOrLoseScreen(

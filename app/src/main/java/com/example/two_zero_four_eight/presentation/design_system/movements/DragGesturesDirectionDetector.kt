@@ -1,4 +1,4 @@
-package com.example.two_zero_four_eight.presentation_old.design_system.movements
+package com.example.two_zero_four_eight.presentation.design_system.movements
 
 import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
-import com.example.two_zero_four_eight.presentation_old.design_system.movements.MovementDirection.*
+import com.example.two_zero_four_eight.presentation.design_system.movements.MovementDirection.*
 
 const val DragGesturesTag = "DragGestures"
 /**

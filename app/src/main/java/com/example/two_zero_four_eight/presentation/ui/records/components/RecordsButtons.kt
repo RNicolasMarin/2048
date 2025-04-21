@@ -36,10 +36,10 @@ import com.example.two_zero_four_eight.presentation.ui.records.RecordsAction
 import com.example.two_zero_four_eight.presentation.ui.records.RecordsAction.OnButtonStateChanged
 import com.example.two_zero_four_eight.presentation.ui.records.RecordsState
 import com.example.two_zero_four_eight.presentation.ui.records.RecordsStatus.LOADING
-import com.example.two_zero_four_eight.presentation_old.design_system.Green1
-import com.example.two_zero_four_eight.presentation_old.design_system.Green2
-import com.example.two_zero_four_eight.presentation_old.design_system.Green3
-import com.example.two_zero_four_eight.presentation_old.design_system.White
+import com.example.two_zero_four_eight.presentation.design_system.Green1
+import com.example.two_zero_four_eight.presentation.design_system.Green2
+import com.example.two_zero_four_eight.presentation.design_system.Green3
+import com.example.two_zero_four_eight.presentation.design_system.White
 import com.example.two_zero_four_eight.presentation.ui.records.components.RecordsButtonsState.*
 
 @Composable
